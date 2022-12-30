@@ -152,6 +152,12 @@ zstyle ':completion:*:cd:*' tag-order local-directories path-directories
 # Process name completion of ps command
 zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
 # Color a completion candidate
+# if gdircolors is available, use it instead of dircolors
+if whence gdircolors >/dev/null; then
+    alias dircolors='gdircolors'
+fi
+eval `dircolors -b`
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 eval `dircolors -b`
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
@@ -250,7 +256,9 @@ alias df='df -h'
 alias free='free -h --si'
 alias iv='sxiv'
 alias is='whois'
-alias myip="ip -4 a show wlp2s0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'"
+if whence ip >/dev/null; then
+    alias myip="ip -4 a show wlp2s0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'"
+fi
 alias e='emacsclient'
 alias testemacs='emacs -q -l ~/.emacs.d/test.el'
 alias open='xdg-open'
@@ -318,6 +326,7 @@ fi
 export PATH=${PATH}:${ANDROID_HOME}/tools
 export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 
+ifconfig wlp2s0 >/dev/null 2>&1 &&
 export LOCAL_HOST_IP=`ifconfig wlp2s0 | grep inet | grep -v inet6 | sed -E "s/inet ([0-9]{1,3}.[0-9]{1,3}.[0-9].{1,3}.[0-9]{1,3}) .*$/\1/" | tr -d "\t"`
 
 # cdr
