@@ -899,14 +899,22 @@ function dirsum() {
 
 
 # zsh-syntax-highlighting(pacman -S zsh-syntax-highlighting)
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 # zsh-completions for aws
 # source ~/.local/bin/aws_zsh_completer.sh
 # password
 source ~/backup/zsh/env.sh
+# source host specific environmental values (if exist)
+if [ -f ~/backup/zsh/env-local.sh ]; then
+    source ~/backup/zsh/env-local.sh
+fi
 
 # nvm
-source /usr/share/nvm/init-nvm.sh
+if [ -f /usr/share/nvm/init-nvm.sh ]; then
+    source /usr/share/nvm/init-nvm.sh
+fi
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/masa/google-cloud-sdk/path.zsh.inc' ]; then . '/home/masa/google-cloud-sdk/path.zsh.inc'; fi
