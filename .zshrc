@@ -950,3 +950,5 @@ compctl -K _pip_completion pip
 autoload bashcompinit
 bashcompinit
 complete -C '/usr/local/bin/aws_completer' aws
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
