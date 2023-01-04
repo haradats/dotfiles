@@ -183,7 +183,7 @@ uefiupdate: ## Update system firmware and uefi
 
 thinkpad: ## Workaround for Intel throttling issues in Linux
 	$(PACMAN) throttled
-	$(SYSTEMD_ENABLE) lenovo_fix.service
+	$(SYSTEMD_ENABLE) throttled
 
 pipewire-pulse: ## Install pipewire-pulse
 	$(PACMAN) pipewire-pulse
@@ -587,7 +587,7 @@ testpath: ## Echo PATH
 	GOPATH=$$GOPATH
 	@echo $$GOPATH
 
-allinstall: rclone gnupg ssh install init keyring urxvt xterm termite yay tlp thinkpad pipewire-pulse ttf-cica dnsmasq pipinstall goinstall fcitx-mozc neomutt docker nodeinstall zeal lvfs gcloud awsv2 toggle aur beekeeper kind eralchemy mpsyt gh
+allinstall: rclone gnupg ssh install init keyring urxvt xterm termite yay tlp pipewire-pulse ttf-cica dnsmasq pipinstall goinstall fcitx-mozc neomutt docker nodeinstall zeal lvfs gcloud awsv2 toggle aur beekeeper kind eralchemy mpsyt gh
 
 nextinstall: chrome rubygem rbenv rustinstall postgresql maria-db mycli pgcli dbeaver
 
