@@ -33,7 +33,7 @@ PIP_PKGS	+= zappa termdown jinja2
 # PACKAGES	+= diffoscope dust rbw exa sslscan abiword pyright miniserve fdupes deno serverless mold fx httpie
 # PACKAGES	+= bash-language-server gron pyenv
 PACKAGES    := zsh git vim keychain lynx aspell-en screen fzf zsh-syntax-highlighting bash-completion w3m
-PACKAGES    += tmux asplell-en manpages-ja manpages-ja-dev
+PACKAGES    += tmux manpages-ja manpages-ja-dev
 PACKAGES    += emacs emacs-mozc emacs-mozc-bin
 
 # BASE_PKGS	:= filesystem gcc-libs glibc bash coreutils file findutils gawk grep procps-ng sed tar gettext
