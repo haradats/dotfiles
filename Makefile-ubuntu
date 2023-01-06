@@ -32,7 +32,7 @@ PIP_PKGS	+= zappa termdown jinja2
 # PACKAGES	+= guetzli fabric python-language-server detox usleep libvterm bind asunder lame git-lfs hex miller
 # PACKAGES	+= diffoscope dust rbw exa sslscan abiword pyright miniserve fdupes deno serverless mold fx httpie
 # PACKAGES	+= bash-language-server gron pyenv
-PACKAGES    := zsh git vim keychain lynx aspell-en screen fzf zsh-syntax-highlighting bash-completion w3m
+PACKAGES    := zsh git vim keychain lynx aspell-en screen zsh-syntax-highlighting bash-completion w3m
 PACKAGES    += tmux manpages-ja manpages-ja-dev
 PACKAGES    += emacs emacs-mozc emacs-mozc-bin
 
