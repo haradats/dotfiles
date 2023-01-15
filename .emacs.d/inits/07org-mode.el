@@ -8,6 +8,9 @@
 (require 'org-habit)
 (add-to-list 'org-modules 'org-habit)
 
+(require 'org-habit)
+(add-to-list 'org-modules 'org-habit)
+
 (setq org-log-done 'time)
 (setq org-use-speed-commands t)
 (setq org-src-tab-acts-natively t)
@@ -28,6 +31,14 @@
 (setq org-log-redeadline (quote time))
 (setq org-log-reschedule (quote time))
 
+(add-to-list 'auto-mode-alist
+	     '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+
+(setq org-agenda-files
+      '("~/org/"))
+(setq org-agenda-start-on-weekday 0)
+(setq org-agenda-include-diary t)
+(setq org-use-fast-todo-selection t)
 (add-to-list 'auto-mode-alist
 	     '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
