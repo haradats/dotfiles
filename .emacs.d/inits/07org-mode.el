@@ -6,6 +6,9 @@
 (require 'org)
 (require 'org-tempo)
 
+(require 'org-habit)
+(add-to-list 'org-modules 'org-habit)
+
 (setq org-log-done 'time)
 (setq org-use-speed-commands t)
 (setq org-src-tab-acts-natively t)
@@ -14,8 +17,18 @@
 (setq calendar-holidays nil)
 (setq org-clock-clocked-in-display 'frame-title)
 
+(setq org-agenda-files
+      '("~/org/"))
+(setq org-agenda-start-on-weekday 0)
+(setq org-agenda-include-diary t)
+(setq org-use-fast-todo-selection t)
+(add-to-list 'auto-mode-alist
+	     '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+
 (bind-key "C-c a" 'org-agenda)
 (bind-key "C-c c" 'org-capture)
+
+(bind-key "C-c l" 'org-store-link)
 
 (setq org-capture-templates
       '(("e" "Experiment" entry (file+headline "~/backup/emacs/org/experiment.org" "Experiment")
@@ -31,6 +44,19 @@
 	 "* %? %U %i")
 	("t" "Task" entry (file+headline "~/backup/emacs/org/task.org" "Task")
 	 "** TODO %? \n   SCHEDULED: %^t \n")))
+
+(setq org-capture-templates
+      (quote
+       (("j" "Journal" entry (file+datetree "~/org/journal.org")
+	 "* %? %U %i")
+	("n" "Note" entry (file+headline "~/org/note.org")
+	 "* %? %U %i")
+	("t" "Todo" entry (file+headline "~/org/todo.org")))))
+(setq org-agenda-time-grid
+      (quote
+       ((daily weekly today)
+	(900 1200 1500 1800 2100)
+	"......" "----------------")))
 
 (setq org-refile-targets
       (quote (("~/backup/emacs/org/archives.org" :level . 1)
