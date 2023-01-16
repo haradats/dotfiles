@@ -54,7 +54,7 @@
 	("t" "Todo" entry (file+headline "~/org/todo.org")))))
 (setq org-agenda-time-grid
       (quote
-       ((daily weekly today)
+       ((today remove-match)
 	(900 1200 1500 1800 2100)
 	"......" "----------------")))
 
