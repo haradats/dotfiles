@@ -65,7 +65,7 @@
 
 
 ;; C-h is backspace
-(define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
+;(define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
 
 ;; Run C-x C-k same kill-buffer as C-x k
 (require 'bind-key)
