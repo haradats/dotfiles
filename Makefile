@@ -4,8 +4,8 @@ export GOPATH := ${HOME}
 NODE_PKGS	:= babel-eslint cloc create-nuxt-app create-react-app webpack firebase-tools now
 NODE_PKGS	+= dockerfile-language-server-nodejs eslint eslint-cli eslint-config-vue netlify-cli
 NODE_PKGS	+= eslint-plugin-react eslint-plugin-vue@next expo-cli fx heroku ngrok prettier
-NODE_PKGS	+= indium intelephense javascript-typescript-langserver logo.svg @marp-team/marp-cli
-NODE_PKGS	+= mermaid mermaid.cli jshint parcel-bundler typescript-language-server
+NODE_PKGS	+= indium intelephense logo.svg @marp-team/marp-cli jshint parcel-bundler
+NODE_PKGS	+= mermaid mermaid.cli
 
 PIP_PKGS	:= ansible ansible-lint beautifulsoup4 black cheat chromedriver-binary diagrams django djangorestframework
 PIP_PKGS	+= django-nested-admin django-ses faker gif-for-cli graph-cli importmagic ipywidgets virtualenvwrapper
@@ -31,7 +31,7 @@ PACKAGES	+= smartmontools gnome-logs wireshark-cli wl-clipboard lsof mapnik edit
 PACKAGES	+= gtop gopls convmv mpv browserpass-firefox man-db baobab ioping ruby-irb mkcert code findomain
 PACKAGES	+= guetzli fabric python-language-server detox usleep libvterm bind asunder lame git-lfs hex miller
 PACKAGES	+= diffoscope dust rbw exa sslscan abiword pyright miniserve fdupes deno serverless mold fx httpie
-PACKAGES	+= bash-language-server gron pyenv
+PACKAGES	+= bash-language-server gron pyenv typescript-language-server csvkit
 
 BASE_PKGS	:= filesystem gcc-libs glibc bash coreutils file findutils gawk grep procps-ng sed tar gettext
 BASE_PKGS	+= pciutils psmisc shadow util-linux bzip2 gzip xz licenses pacman systemd systemd-sysvcompat 
@@ -321,7 +321,7 @@ dingo: ## Install dingo Google DNS over HTTPS
 	$(SYSTEMD_ENABLE) $@.service
 
 ccls: ## Install c,c++ language server
-	yay -S ccls
+	$(PACMAN) $@
 
 android: ## Install android-studio
 	yay -S android-studio
@@ -504,7 +504,8 @@ rbenv: ## Install rvenv ruby-build
 	gem install bundle
 
 rubygem: ## Install rubygem package
-	gem install bundler jekyll sass compass solargraph rawler rdoc irb rails
+	yay -S ruby-solargraph
+	gem install bundler jekyll sass compass rawler rdoc irb rails
 
 django: ## Create django project from scratch
 	mkdir -p ${HOME}/src/github.com/masasam/djangoproject && cd $$_ && touch Pipfile && \
