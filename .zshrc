@@ -236,7 +236,11 @@ fi
 
 
 # keychain config
-/usr/bin/keychain $HOME/.ssh/id_rsa
+if [ -f /usr/local/bin/keychain ]; then # for homebrew (mac)
+    /usr/local/bin/keychain $HOME/.ssh/id_rsa
+else
+    /usr/bin/keychain $HOME/.ssh/id_rsa
+fi
 source $HOME/.keychain/$HOST-sh
 
 # completion mosh
