@@ -22,12 +22,16 @@
 (setq org-agenda-start-on-weekday 0)
 (setq org-agenda-include-diary t)
 (setq org-use-fast-todo-selection t)
+(setq org-blank-before-new-entry (quote ((heading) (plain-list-item))))
+(setq org-enforce-todo-dependencies t)
+(setq org-log-redeadline (quote time))
+(setq org-log-reschedule (quote time))
+
 (add-to-list 'auto-mode-alist
 	     '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
 (bind-key "C-c a" 'org-agenda)
 (bind-key "C-c c" 'org-capture)
-
 (bind-key "C-c l" 'org-store-link)
 
 (setq org-capture-templates
