@@ -788,6 +788,7 @@ libmpcdec
 libmspub
 libmwaw
 libmypaint
+libmysofa
 libnautilus-extension
 libndp
 libnet
@@ -823,6 +824,7 @@ libpciaccess
 libpeas
 libpgm
 libpipeline
+libpipewire
 libplacebo
 libplist
 libpng
@@ -1136,6 +1138,7 @@ python-agate-dbf
 python-agate-excel
 python-agate-sql
 python-appdirs
+python-argcomplete
 python-asn1crypto
 python-attrs
 python-autocommand
@@ -1262,6 +1265,7 @@ python-webencodings
 python-websocket-client
 python-wheel
 python-xlrd
+python-xmltodict
 python-yaml
 python-zipp
 qhull
@@ -1315,6 +1319,7 @@ ruby-csv
 ruby-date
 ruby-delegate
 ruby-did_you_mean
+ruby-diff-lcs
 ruby-digest
 ruby-drb
 ruby-english
@@ -1586,6 +1591,7 @@ xxhash
 xz
 yarn
 youtube-dl
+yq
 zbar
 zenity
 zeromq

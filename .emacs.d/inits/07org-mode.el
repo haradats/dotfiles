@@ -34,6 +34,9 @@
 (bind-key "C-c c" 'org-capture)
 (bind-key "C-c l" 'org-store-link)
 
+(with-eval-after-load "org"
+  (define-key org-mode-map (kbd "C-'") #'hydra-pinky/body))
+
 (setq org-capture-templates
       '(("e" "Experiment" entry (file+headline "~/backup/emacs/org/experiment.org" "Experiment")
 	 "* %? %U %i\n
