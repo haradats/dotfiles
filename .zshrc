@@ -236,10 +236,10 @@ fi
 
 
 # keychain config
-if [ -f /usr/local/bin/keychain ]; then # for homebrew (mac)
-    /usr/local/bin/keychain $HOME/.ssh/id_rsa
-else
+if [ -f /usr/bin/keychain ]; then
     /usr/bin/keychain $HOME/.ssh/id_rsa
+elif [ -f /usr/localbin/keychain ]; then # Mac (homebrew)
+    /usr/local/bin/keychain $HOME/.ssh/id_rsa
 fi
 source $HOME/.keychain/$HOST-sh
 
