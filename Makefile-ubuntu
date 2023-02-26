@@ -61,19 +61,19 @@ ${HOME}/.local:
 	mkdir -p $<
 
 nvm:
-    export NVM_DIR=${HOME}/.config/nvm
-    mkdir -p ${NVM_DIR}
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+	export NVM_DIR=${HOME}/.config/nvm
+	mkdir -p ${NVM_DIR}
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
 npm-update:
-    nvm install-latest-npm
+	nvm install-latest-npm
 
 pyenv:
-    rm -rf ${HOME}/.pyenv
-    curl https://pyenv.run | bash
+	rm -rf ${HOME}/.pyenv
+	curl https://pyenv.run | bash
 
 pyenv-update:
-    ${HOME}/.pyenv/bin/pyenv update
+	${HOME}/.pyenv/bin/pyenv update
 
 rclone: ## Init rclone
 	$(PACMAN) $@
