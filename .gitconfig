@@ -1,9 +1,9 @@
 [user]
-	name = Masashi Miyaura
-	email = masasam@users.noreply.github.com
-	signingkey = 288770C044C8CC3A
+	name = Toshiharu Harada
+	email = haradats@users.noreply.github.com
+    # signingkey = 288770C044C8CC3A
 [commit]
-	gpgsign = true
+    # gpgsign = true
 [color]
 	ui = auto
 	status = auto
@@ -29,7 +29,7 @@
 	fontui = -family helvetica -size 9 -weight bold -slant roman -underline 0 -overstrike 0
 	fontdiff = -family Courier -size 12 -weight bold -slant roman -underline 0 -overstrike 0
 [core]
-	editor = emacsclient
+	editor = vim
 	pager = less
 	excludesfile = ~/.gitignore
 	commentchar = ^
@@ -38,9 +38,12 @@
 [push]
 	default = upstream
 [pager]
-	log = /usr/share/git/diff-highlight/diff-highlight | less -R
-	show = /usr/share/git/diff-highlight/diff-highlight | less -R
-	diff = /usr/share/git/diff-highlight/diff-highlight | less -R
+    # log = /usr/share/git/diff-highlight/diff-highlight | less -R
+    # show = /usr/share/git/diff-highlight/diff-highlight | less -R
+    # diff = /usr/share/git/diff-highlight/diff-highlight | less -R
+    log = /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -R
+    show = /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -R
+    diff = /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -R
 [diff]
 	compactionHeuristic = true
 [ghq]
@@ -61,7 +64,7 @@
 	allowed = AKIAIOSFODNN7EXAMPLE
 	allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 [github]
-	user = masasam
+	user = haradats
 [help]
 	autocorrect = 1
 [filter "lfs"]
