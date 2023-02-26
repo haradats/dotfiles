@@ -1,4 +1,6 @@
 export DATABASE_PASSWORD='your_password'
+
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 export ALTERNATE_EDITOR=vim
 
 local uname=`uname -r`
