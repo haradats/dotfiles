@@ -301,7 +301,7 @@ alias djangoinit='python manage.py create_required_buckets && python manage.py c
 
 
 # PATH
-export GOPATH=$HOME
+export GOPATH=$HOME/go
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 export EDITOR='emacsclient'
