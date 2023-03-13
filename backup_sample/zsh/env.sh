@@ -30,7 +30,3 @@ elif [[ $uname =~ $mac ]]; then
 else
     echo ""
 fi
-
-if [ -f env-`hostname`.sh ]; then
-    source env-`hostname`.sh
-fi
