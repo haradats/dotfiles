@@ -40,7 +40,7 @@ PACKAGES    += emacs emacs-mozc emacs-mozc-bin
 # BASE_PKGS	+= pciutils psmisc shadow util-linux bzip2 gzip xz licenses pacman systemd systemd-sysvcompat 
 # BASE_PKGS	+= iputils iproute2 autoconf sudo automake binutils bison fakeroot flex gcc groff libtool m4 
 # BASE_PKGS	+= make patch pkgconf texinfo which
-BASE_PKGS   := build-essential language-pack-ja bin-utils core-utils net-tools texinfo
+BASE_PKGS   := build-essential language-pack-ja binutils net-tools texinfo
 
 # PACMAN		:= sudo pacman -S 
 PACMAN		:= sudo apt install -y
