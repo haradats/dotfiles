@@ -35,6 +35,7 @@ PIP_PKGS	+= zappa termdown jinja2
 PACKAGES    := zsh git vim keychain lynx aspell-en screen zsh-syntax-highlighting bash-completion w3m
 PACKAGES    += tmux manpages-ja manpages-ja-dev
 PACKAGES    += emacs emacs-mozc emacs-mozc-bin
+PACKAGES    += texlive-lang-japanese texlive-luatex texlive-latex-recommended
 
 # BASE_PKGS	:= filesystem gcc-libs glibc bash coreutils file findutils gawk grep procps-ng sed tar gettext
 # BASE_PKGS	+= pciutils psmisc shadow util-linux bzip2 gzip xz licenses pacman systemd systemd-sysvcompat 
