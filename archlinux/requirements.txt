@@ -32,8 +32,8 @@ beautifulsoup4==4.11.2
 black==23.1.0
 bleach==6.0.0
 blockdiag==3.0.0
-boto3==1.26.89
-botocore==1.29.89
+boto3==1.26.91
+botocore==1.29.91
 bracex==2.3.post1
 btrfsutil==6.2.1
 build==0.10.0
@@ -90,7 +90,7 @@ executing==1.2.0
 fabric==3.0.0
 Faker==17.6.0
 fastjsonschema==2.16.3
-filelock==3.9.0
+filelock==3.9.1
 fluidity-sm==0.2.1
 fonttools==4.39.0
 fqdn==1.5.1
@@ -182,7 +182,7 @@ multidict==6.0.3
 mypy-extensions==1.0.0
 nbclassic==0.5.3
 nbclient==0.7.2
-nbconvert==7.2.9
+nbconvert==7.2.10
 nbformat==5.7.3
 neovim==0.3.1
 nest-asyncio==1.5.6
@@ -259,7 +259,7 @@ python-utils==3.5.2
 pytimeparse==1.1.8
 pytz==2022.7.1
 PyYAML==6.0
-pyzmq==25.0.0
+pyzmq==25.0.1
 qtconsole==5.4.1
 QtPy==2.3.0
 queuelib==1.6.2
@@ -304,10 +304,10 @@ sphinx-rtd-theme==1.2.0
 sphinxcontrib-applehelp==1.0.4
 sphinxcontrib-devhelp==1.0.2
 sphinxcontrib-htmlhelp==2.0.1
+sphinxcontrib-jquery==4.1
 sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==1.0.3
 sphinxcontrib-serializinghtml==1.1.5
-sphinxcontrib.jquery==4.0.0
 SQLAlchemy==1.4.44
 sqlparse==0.4.3
 sshuttle==1.1.1
@@ -336,7 +336,7 @@ tqdm==4.65.0
 traitlets==5.9.0
 trash-cli==0.23.2.13.2
 trio==0.22.0
-trio-websocket==0.9.2
+trio-websocket==0.10.0
 troposphere==4.3.2
 trove-classifiers==2023.3.10
 truffleHog==2.2.1
