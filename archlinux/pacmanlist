@@ -669,6 +669,7 @@ libbsd
 libbytesize
 libcaca
 libcamera
+libcamera-ipa
 libcanberra
 libcap
 libcap-ng
@@ -724,6 +725,7 @@ libgdm
 libgee
 libgeotiff
 libgexiv2
+libgirepository
 libgit2
 libglvnd
 libgme
@@ -884,6 +886,8 @@ libtiger
 libtirpc
 libtommath
 libtool
+libtraceevent
+libtracefs
 libunistring
 libunwind
 liburcu
