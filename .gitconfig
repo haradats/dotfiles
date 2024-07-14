@@ -1,7 +1,7 @@
 [user]
 	name = Toshiharu Harada
 	email = haradats@users.noreply.github.com
-    signingkey = 3C92A6F72AC13590
+	signingkey = 3C92A6F72AC13590
 [commit]
     # gpgsign = true
 [color]

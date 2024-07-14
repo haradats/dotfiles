@@ -5,7 +5,6 @@
 
 (require 'org)
 (require 'org-tempo)
-
 (require 'org-habit)
 (add-to-list 'org-modules 'org-habit)
 
@@ -13,12 +12,14 @@
 (setq org-use-speed-commands t)
 (setq org-src-tab-acts-natively t)
 (setq org-src-fontify-natively t)
-(setq org-agenda-files '("~/backup/emacs/org/task.org"))
-(setq calendar-holidays nil)
-(setq org-clock-clocked-in-display 'frame-title)
-
+;; (setq org-agenda-files '("~/backup/emacs/org/task.org"))
+(setq org-directory "~/org/")
 (setq org-agenda-files
       '("~/org/"))
+(setq calendar-holidays nil)
+(setq org-clock-clocked-in-display 'frame-title)
+(setq org-journal-dir "~/org/journal")
+
 (setq org-agenda-start-on-weekday 0)
 (setq org-agenda-include-diary t)
 (setq org-use-fast-todo-selection t)
@@ -79,6 +80,19 @@
 		(read-from-minibuffer "Rename: " `(".org" . 1) nil nil nil)
 		"~/backup/kanban")
 	       1))
+
+;; My org-mode
+
+;; TODO状態
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "WAIT(w)" "|" "DONE(d)" "CANCELED(c)")))
+
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "C-c j") #'org-journal-new-entry)
+
+(setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars)
