@@ -242,6 +242,8 @@
  '(init-loader-show-log-after-init 'error-only))
 (init-loader-load)
 (setq custom-file (locate-user-emacs-file "custom.el"))
+(if (file-exists-p (expand-file-name custom-file))
+    (load-file (expand-file-name custom-file)))
 
 (provide 'init)
 ;;; init.el ends here
