@@ -120,7 +120,7 @@ install: ## Install arch linux packages using pacman
 	sudo apt update
 	$(PACMAN) $(PACKAGES)
 #	sudo pkgfile --update
-	sudo apt upgrade -y
+	sudo apt update -y
 
 pipinstall: ${HOME}/.local ## Install python packages
 	# curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
@@ -140,14 +140,14 @@ goinstall: ${HOME}/.local ## Install go packages
 	go install github.com/mithrandie/csvq@latest
 
 nodeinstall: ## Install node packages
-	sudo pacman -S yarn
-	mkdir -p ${HOME}/.node_modules
-	for pkg in $(NODE_PKGS); do yarn global add $$pkg; done
+	# sudo pacman -S yarn
+	# mkdir -p ${HOME}/.node_modules
+	# for pkg in $(NODE_PKGS); do yarn global add $$pkg; done
 
 rustinstall: ## Install rust and rust language server
-	sudo pacman -S rustup
-	rustup default stable
-	rustup component add rls rust-analysis rust-src
+	# sudo pacman -S rustup
+	# rustup default stable
+	# rustup component add rls rust-analysis rust-src
 
 neomutt: ## Init neomutt mail client
 	# $(PACMAN) neomutt
@@ -159,12 +159,13 @@ neomutt: ## Init neomutt mail client
 	# goobook authenticate
 
 alacritty: ## Init alacritty
-	$(PACMAN) $@
-	test -L ${HOME}/.config/$@/$@.yml || rm -rf ${HOME}/.config/$@/$@.yml
-	ln -vsf {${PWD},${HOME}}/.config/$@/$@.yml
+	# $(PACMAN) $@
+	# test -L ${HOME}/.config/$@/$@.yml || rm -rf ${HOME}/.config/$@/$@.yml
+	# ln -vsf {${PWD},${HOME}}/.config/$@/$@.yml
 
 urxvt: ## Init rxvt-unicode terminal
-	$(PACMAN) $@-perls rxvt-unicode
+	# $(PACMAN) $@-perls rxvt-unicode
+	$(PACMAN) rxvt-unicode
 	ln -vsf ${PWD}/.Xresources ${HOME}/.Xresources
 	for item in urxvt{,c,-tabbed}; do sudo ln -vsf {${PWD},}/usr/share/applications/$$item.desktop; done
 	mkdir -p ${HOME}/.config/autostart
@@ -199,13 +200,13 @@ dnsmasq: ## Init dnsmasq
 	sudo ln -vsf {${PWD},}/etc/NetworkManager/NetworkManager.conf
 
 tlp: ## Setting for power saving and preventing battery deterioration
-	$(PACMAN) $@ powertop
-	sudo ln -vsf {${PWD},}/etc/default/$@
-	$(SYSTEMD_ENABLE) $@.service $@-sleep.service
+	# $(PACMAN) $@ powertop
+	# sudo ln -vsf {${PWD},}/etc/default/$@
+	# $(SYSTEMD_ENABLE) $@.service $@-sleep.service
 
 lvfs: ## For Linux Vendor Firmware Service
-	$(PACMAN) fwupd dmidecode
-	sudo dmidecode -s bios-version
+	# $(PACMAN) fwupd dmidecode
+	# sudo dmidecode -s bios-version
 
 uefiupdate: ## Update system firmware and uefi
 	for action in refresh get-updates update; do fwupdmgr $$action; done
@@ -215,10 +216,10 @@ thinkpad: ## Workaround for Intel throttling issues in Linux
 	$(SYSTEMD_ENABLE) throttled
 
 pipewire-pulse: ## Install pipewire-pulse
-	$(PACMAN) pipewire-pulse
+	# $(PACMAN) pipewire-pulse
 
 keyring: ${HOME}/.local ## Init gnome keyrings
-	$(PACMAN) seahorse
+	# $(PACMAN) seahorse
 	test -L ${HOME}/.local/share/keyrings || rm -rf ${HOME}/.local/share/keyrings
 	ln -vsfn ${HOME}/{backup,.local/share}/keyrings
 
