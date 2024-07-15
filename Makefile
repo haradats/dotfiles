@@ -38,7 +38,7 @@ BASE_PKGS	+= pciutils psmisc shadow util-linux bzip2 gzip xz licenses pacman sys
 BASE_PKGS	+= iputils iproute2 autoconf sudo automake binutils bison fakeroot flex gcc groff libtool m4 
 BASE_PKGS	+= make patch pkgconf texinfo which
 
-PACMAN		:= sudo pacman -S 
+PACMAN		:= sudo apt install -y
 SYSTEMD_ENABLE	:= sudo systemctl --now enable
 FLUTTER_URL	:= https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.3.7-stable.tar.xz
 
@@ -83,7 +83,8 @@ init: ## Initial deploy dotfiles
 	mkdir -p ${HOME}/.config/mpv
 	ln -vsf {${PWD},${HOME}}/.config/mpv/mpv.conf
 	ln -vsf {${PWD},${HOME}}/.config/hub
-	sudo ln -vsf {${PWD},}/etc/hosts
+	# sudo ln -vsf {${PWD},}/etc/hosts
+	sudo ln -vsf {${PWD},}/etc/wsl.conf
 
 
 base: ## Install base and base-devel package
