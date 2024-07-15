@@ -56,7 +56,7 @@
 (setq org-capture-templates
       (quote
        (("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
-	 "* %? %U %i" :time-prompt)
+	 "* %? %U %i" :time-prompt t)
 	("n" "Note" entry (file+headline "~/org/note.org")
 	 "* %? %U %i")
 	("t" "Todo" entry (file+headline "~/org/todo.org")))))
