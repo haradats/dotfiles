@@ -7,6 +7,12 @@ NODE_PKGS	+= eslint-plugin-react eslint-plugin-vue@next expo-cli fx heroku ngrok
 NODE_PKGS	+= indium intelephense javascript-typescript-langserver logo.svg @marp-team/marp-cli
 NODE_PKGS	+= mermaid mermaid.cli jshint parcel-bundler typescript-language-server
 
+# PIP_PKGS	:= ansible ansible-lint beautifulsoup4 black cheat chromedriver-binary diagrams django djangorestframework
+# PIP_PKGS	+= django-nested-admin django-ses faker gif-for-cli graph-cli importmagic ipywidgets virtualenvwrapper
+# PIP_PKGS	+= jupyter jupyterlab jupyterthemes litecli matplotlib neovim nose pandas pipenv poetry pre-commit
+# PIP_PKGS	+= progressbar2 psycopg2-binary py-spy pydantic pydoc_utils r7insight_python redis requests_mock
+# PIP_PKGS	+= rtv scipy scrapy seaborn selenium speedtest-cli streamlink tldr trash-cli truffleHog virtualenv
+# PIP_PKGS	+= zappa termdown jinja2
 PIP_PKGS	:= ansible ansible-lint beautifulsoup4 black cheat chromedriver-binary diagrams django djangorestframework
 PIP_PKGS	+= django-nested-admin django-ses faker gif-for-cli graph-cli importmagic ipywidgets virtualenvwrapper
 PIP_PKGS	+= jupyter jupyterlab jupyterthemes litecli matplotlib neovim nose pandas pipenv poetry pre-commit
@@ -117,12 +123,12 @@ install: ## Install arch linux packages using pacman
 	sudo apt upgrade -y
 
 pipinstall: ${HOME}/.local ## Install python packages
-	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-	python ${PWD}/get-pip.py --user
-	sudo ln -vsf ${PWD}/usr/share/zsh/site-functions/_pipenv /usr/share/zsh/site-functions/_pipenv
+	# curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+	# python ${PWD}/get-pip.py --user
+	# sudo ln -vsf ${PWD}/usr/share/zsh/site-functions/_pipenv /usr/share/zsh/site-functions/_pipenv
 	pip install --user --upgrade pip
 	pip install --user $(PIP_PKGS)
-	rm -fr get-pip.py
+	# rm -fr get-pip.py
 
 goinstall: ${HOME}/.local ## Install go packages
 	go install golang.org/x/tools/gopls@latest
