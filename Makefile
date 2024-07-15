@@ -77,7 +77,7 @@ init: ## Initial deploy dotfiles
 	ln -vsfn ${PWD}/.emacs.d ${HOME}/.emacs.d
 	ln -vsf ${PWD}/.lesskey ${HOME}/.lesskey
 	lesskey
-	for item in zshrc vimrc bashrc npmrc myclirc tmux.conf screenrc aspell.conf gitconfig netrc authinfo; do
+	for item in zshrc vimrc bashrc npmrc myclirc tmux.conf screenrc aspell.conf gitconfig authinfo; do
 		ln -vsf {${PWD},${HOME}}/.$$item
 	done
 	mkdir -p ${HOME}/.config/mpv
