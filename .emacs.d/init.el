@@ -12,38 +12,36 @@
 (setq inhibit-startup-message t)
 (set-frame-parameter nil 'fullscreen 'maximized)
 (setq byte-compile-warnings '(cl-functions))
-
 (global-auto-revert-mode t)
 
+(require 'package)
+(set-language-environment "Japanese")           ; 言語環境を"japanese"に
+(setq default-input-method "japanese-mozc")     ; IMEをjapanes-mozcに
+(prefer-coding-system 'utf-8)                   ; デフォルトの文字コードをUTF-8に
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+  ;; (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ;; (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    ;; (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
+
+;; A workaround for a bug that occurs with gnutls 3.6 and emacs 26.1 emacs 26.2
+  (when (and (= emacs-major-version 26) (or (= emacs-minor-version 1) (= emacs-minor-version 2)))
+    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")))
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
 	     '("mepla-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives
 	     '("org" . "https://orgmode.org/elpa/"))
-;; (add-to-list 'package-archives
-;; 	     '("mozc" . "https://raw.githubusercontent.com/google/mozc/master/src/unix/emacs/"))
-
+(add-to-list 'package-archives
+	     '("mozc" . "https://raw.githubusercontent.com/google/mozc/master/src/unix/emacs/"))
 (package-initialize)
 
 (require 'mozc)                                 ; mozcの読み込み
-(set-language-environment "Japanese")           ; 言語環境を"japanese"に
-(setq default-input-method "japanese-mozc")     ; IMEをjapanes-mozcに
-(prefer-coding-system 'utf-8)                   ; デフォルトの文字コードをUTF-8に
-
-(require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
-
-;; A workaround for a bug that occurs with gnutls 3.6 and emacs 26.1 emacs 26.2
-(when (and (= emacs-major-version 26) (or (= emacs-minor-version 1) (= emacs-minor-version 2)))
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+(display-time)
 
 ;; When emacs for the first time execute only, automatic package install
 (unless (file-directory-p "~/.emacs.d/elpa")
