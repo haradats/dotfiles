@@ -14,10 +14,11 @@
 (setq byte-compile-warnings '(cl-functions))
 (global-auto-revert-mode t)
 
-(require 'package)
 (set-language-environment "Japanese")           ; 言語環境を"japanese"に
 (setq default-input-method "japanese-mozc")     ; IMEをjapanes-mozcに
 (prefer-coding-system 'utf-8)                   ; デフォルトの文字コードをUTF-8に
+
+(require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
@@ -36,8 +37,8 @@
 	     '("mepla-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives
 	     '("org" . "https://orgmode.org/elpa/"))
-(add-to-list 'package-archives
-	     '("mozc" . "https://raw.githubusercontent.com/google/mozc/master/src/unix/emacs/"))
+;; (add-to-list 'package-archives
+;; 	     '("mozc" . "https://raw.githubusercontent.com/google/mozc/master/src/unix/emacs/"))
 (package-initialize)
 
 (require 'mozc)                                 ; mozcの読み込み
