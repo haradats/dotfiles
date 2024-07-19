@@ -29,7 +29,7 @@
 	fontui = -family helvetica -size 9 -weight bold -slant roman -underline 0 -overstrike 0
 	fontdiff = -family Courier -size 12 -weight bold -slant roman -underline 0 -overstrike 0
 [core]
-	editor = vim
+	editor = emacsclient -c
 	pager = less
 	excludesfile = ~/.gitignore
 	commentchar = ^
