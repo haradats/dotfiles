@@ -5,8 +5,8 @@
 ;; Package-Requires: ((emacs "25.1"))
 ;;(setq debug-on-error t)
 
-(menu-bar-mode 0)
-(tool-bar-mode 0)
+(menu-bar-mode t)
+(tool-bar-mode t)
 (scroll-bar-mode 0)
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
