@@ -568,9 +568,9 @@ tym: ## Init tym terminal
 	# sudo ln -vsf {${PWD},}/usr/share/applications/$@.desktop
 
 backup: ## Backup arch linux packages
-	mkdir -p ${PWD}/archlinux
-	pacman -Qnq > ${PWD}/archlinux/pacmanlist
-	pacman -Qqem > ${PWD}/archlinux/aurlist
+	mkdir -p ${PWD}/wsl
+	dpkg -l > ${PWD}/wsl/dpkglist
+	# pacman -Qqem > ${PWD}/archlinux/aurlist
 
 update: ## Update arch linux packages and save packages cache 3 generations
 	# yay -Syu; paccache -ruk0
