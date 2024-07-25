@@ -56,10 +56,11 @@
 (setq org-capture-templates
       (quote
        (("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
-	 "* %? %U %i" :time-prompt t)
+	 "* %?\n%U %i" :time-prompt t)
 	("n" "Note" entry (file+headline "~/org/note.org")
 	 "* %? %U %i")
-	("t" "Todo" entry (file+headline "~/org/todo.org")))))
+	("t" "Todo" entry (file+headline "~/org/todo.org")
+	 "* TODO %?\n%U"))))
 (setq org-agenda-time-grid
       (quote
        ((today remove-match)
