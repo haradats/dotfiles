@@ -577,12 +577,12 @@ update: ## Update arch linux packages and save packages cache 3 generations
 	# yay -Syu; paccache -ruk0
 
 pipbackup: ## Backup python packages
-	mkdir -p ${PWD}/archlinux
-	pip freeze > ${PWD}/archlinux/requirements.txt
+	mkdir -p ${PWD}/wsl
+	pip freeze > ${PWD}/wsl/requirements.txt
 
 piprecover: ## Recover python packages
-	mkdir -p ${PWD}/archlinux
-	pip install --user -r ${PWD}/archlinux/requirements.txt
+	mkdir -p ${PWD}/wsl
+	pip install --user -r ${PWD}/wsl/requirements.txt
 
 pipupdate: ## Update python packages
 	pip list --user | cut -d" " -f 1 | tail -n +3 | xargs pip install -U --user
