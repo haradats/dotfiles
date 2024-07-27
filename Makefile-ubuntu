@@ -104,7 +104,7 @@ init: ## Initial deploy dotfiles
 	test -L ${HOME}/.emacs.d || rm -rf ${HOME}/.emacs.d
 	ln -vsfn ${PWD}/.emacs.d ${HOME}/.emacs.d
 	ln -vsf ${PWD}/.lesskey ${HOME}/.lesskey
-	lesskey
+	# lesskey
 	for item in zshrc vimrc bashrc npmrc myclirc tmux.conf screenrc aspell.conf gitconfig authinfo; do
 		ln -vsf {${PWD},${HOME}}/.$$item
 	done
@@ -245,7 +245,8 @@ ttf-cica: ## Install Cica font
 	# yay -S $@
 
 dconfsetting: # Initial dconf setting
-	sudo pacman -S dconf-editor
+	# sudo pacman -S dconf-editor
+	sudo apt install dconf-clie
 	dconf write /org/gnome/desktop/input-sources/xkb-options "['ctrl:nocaps']"
 	dconf write /org/gnome/desktop/interface/gtk-theme "'Adwaita-dark'"
 	dconf write /org/gnome/desktop/interface/gtk-key-theme "'Emacs'"
