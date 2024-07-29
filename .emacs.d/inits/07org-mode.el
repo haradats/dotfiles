@@ -21,7 +21,7 @@
       '("~/org/"))
 (setq calendar-holidays nil)
 (setq org-clock-clocked-in-display 'frame-title)
-(setq org-journal-dir "~/org/journal")
+;; (setq org-journal-dir "~/org/journal")
 
 (setq org-agenda-start-on-weekday 0)
 (setq org-agenda-include-diary t)
