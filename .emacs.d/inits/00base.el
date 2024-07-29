@@ -7,6 +7,8 @@
 ;; (load-theme 'material t)
 (load-theme 'dracula t)
 
+(setq inhibit-startup-buffer-menu t)
+
 ;; Change part of theme to your liking.
 ;; Investigate by changing 'M-x list-faces-display'
 (custom-set-faces '(cursor ((t (:background "#82c600")))))
@@ -32,7 +34,7 @@
 
 
 ;; font
-;; (add-to-list 'default-frame-alist '(font . "Cica-20"))
+(add-to-list 'default-frame-alist '(font . "Cica-24"))
 
 
 ;; defalias list
@@ -172,7 +174,7 @@ If the region is inactive, `backward-kill-word'."
 
 
 ;; emacs c source dir:
-(setq find-function-C-source-directory "~/backup/emacs/emacs-27.1/src")
+;; (setq find-function-C-source-directory "~/backup/emacs/emacs-29.2/src")
 
 
 ;; Do not change the position of the cursor on the screen as much as possible when scrolling pages
@@ -266,6 +268,8 @@ If the region is inactive, `backward-kill-word'."
 	(decf n)))))
 
 (bind-key "C-M-y" 'my/duplicate-current-line)
+
+(setq eww-search-prefix "https://www.google.co.jp/search?q=")
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars)

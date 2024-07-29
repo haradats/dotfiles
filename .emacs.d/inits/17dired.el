@@ -3,6 +3,18 @@
 ;;; Code:
 ;;(setq debug-on-error t)
 
+(defun dired-full-path ()
+  (interactive)
+  (kill-new default-directory))
+
+(defun dired-parent-directory ()
+  (interactive)
+  (kill-new (car (cdr (reverse (split-string default-directory "/"))))))
+
+(defun dired-show-directory ()
+  (interactive)
+  (message default-directory))
+
 ;; Dired files deleted by trash and no ask recursive
 (setq delete-by-moving-to-trash t
       dired-recursive-copies 'always

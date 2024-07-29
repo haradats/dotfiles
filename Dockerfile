@@ -2,6 +2,7 @@ FROM archlinux:latest
 
 ARG USERNAME=masa
 ARG PASSWORD=hogehoge
+ARG HOSTNAME=thinkpad
 ARG REPOSITORY=/home/${USERNAME}/src/github.com/masasam
 
 ENV HOME /home/${USERNAME}
@@ -9,7 +10,7 @@ ENV HOME /home/${USERNAME}
 RUN pacman -Syu --noconfirm
 RUN pacman -S base base-devel --noconfirm
 
-RUN echo thinkpad > /etc/hostname
+RUN echo ${HOSTNAME} > /etc/hostname
 RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
 RUN locale-gen
 RUN export LANG=C
@@ -34,10 +35,10 @@ RUN LANG=C xdg-user-dirs-update --force &&\
 
 USER ${USERNAME}
 WORKDIR /tmp
-RUN wget https://github.com/Jguer/yay/releases/download/v11.3.2/yay_11.3.2_x86_64.tar.gz &&\
-	tar xzvf yay_11.3.2_x86_64.tar.gz
+RUN wget https://github.com/Jguer/yay/releases/download/v12.3.5/yay_12.3.5_x86_64.tar.gz &&\
+	tar xzvf yay_12.3.5_x86_64.tar.gz
 USER root
-RUN cp /tmp/yay_11.3.2_x86_64/yay /usr/bin/yay
+RUN cp /tmp/yay_12.3.5_x86_64/yay /usr/bin/yay
 USER ${USERNAME}
 WORKDIR ${REPOSITORY}
 RUN git clone https://github.com/masasam/dotfiles

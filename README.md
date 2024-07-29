@@ -127,12 +127,16 @@ Why Arch linux?
 - Arch linux is good because it is difficult for my development environment to be old packages.
 
 - I like customization but if customization is done too much, it is not good because it can not receive the benefit of the community. Since Arch linux is unsuitable for excessive customization, it is fit to me.
-  In principle the package of Arch linux is a policy to build from the source of vanilla (Vanilla means that it does not apply its own patch for arch linux)
+  In principle the package of Arch linux is a policy to build from the source of vanilla (Vanilla means that it does not apply its own patch for arch linux).
   It is good because Arch linux unique problems are unlikely.
 
 - Arch linux is lightweight because there is no extra thing.
 
 ![top](https://raw.githubusercontent.com/masasam/image/image/top.png)
+
+NVMe SSD has only 512G, but it is sufficient for the environment that uses arch linux and emacs.
+
+![baobao](https://raw.githubusercontent.com/masasam/image/image/baobao.png)
 
 Download Arch linux.
 
@@ -143,90 +147,97 @@ Run the following command, replacing /dev/sdx with your drive, e.g. /dev/sdb. (D
 
 	sudo dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx status=progress oflag=sync
 
-![baobao](https://raw.githubusercontent.com/masasam/image/image/baobao.png)
-
-SSD has only 250G, but it is sufficient for the environment that uses arch linux and emacs.
-
 #### Boot in USB memory
 
 Change it to boot from usb in BIOS UEFI.
 
+	[thinkpad x1 carbon gen6]
 	Security > Secure Boot: Disable
-	Set Config -> Sleep State: "linux"(This may be a peculiar setting of my thinkpad x1 gen6).
-	Set Config -> Thunderbolt BIOS Assist Mode: "Enabled"(This may be a peculiar setting of my thinkpad x1 gen6).
+	Config -> Sleep State: linux
+	Config -> Thunderbolt BIOS Assist Mode: Enabled
 	Security > I/O Port Access > Wireless WAN: Disable(for power save)
 	Security > I/O Port Access > Memory Card Slot: Disable(for power save)
 	Security > I/O Port Access > Fingerprint Reader: Disable(for power save)
 	Config -> Network -> Wake On LAN: Disabled(for power save)
 	Config -> Network -> Wake On LAN from Dock: Disabled(for power save)
 
-Partitioning
-
-* Use UEFI and GPT
-
-  Choose according to your hardware.
-
-* Partition / only
-
-* No swap
-
+	[thinkpad x1 carbon gen10]
+	Security > Secure Boot: off
+	Config -> Sleep State: linux
+	
 Install archlinux
 
-	gdisk /dev/sda
+	setfont solar24x32.psfu.gz
+	gdisk /dev/nvme0n1
 
-clear the partition
+Clear the partition
 
-	Command (? for help):o
+	Command (? for help): o
 
 Make ESP(EFI System Partition).
 Because I want to do UEFI boot, I make a FAT32 formatted partition.
 
-	Command (? for help):n
+	Command (? for help): n
 	Permission number: 1
 	First sector     : enter
 	Last sector      : +512M
 	Hex code or GUID : EF00
 
-Set all the rest to / partition
+Make swap(Since the memory is 16G, allocate more than that to swap).
 
-	Command (? for help):n
-	Permission number: 2
+	Command (? for help): n
+	Partition number (2-128, default 2): enter
+	First sector (34-1953525134, default = 206848) or {+-}size{KMGTP}: enter
+	Last sector (206848-1953525134, default = 1953525134) or {+-}size{KMGTP}: +20G
+	Hex code or GUID (L to show codes, Enter = 8300): 8200
+
+Set all the rest to / partition
+	
+	Command (? for help): n
+	Permission number: enter
 	First sector     : enter
 	Last sector      : enter
 	Hex code or GUID : 8300
 
 Format and mount with fat32 and ext4
 
-	mkfs.vfat -F32 /dev/sda1
-	mkfs.ext4 /dev/sda2
-	mount /dev/sda2 /mnt
+	mkfs.fat -F32 /dev/nvme0n1p1
+	mkfs.ext4 /dev/nvme0n1p3	
+	mkswap /dev/nvme0n1p2
+	swapon /dev/nvme0n1p2
+	mount /dev/nvme0n1p3 /mnt
 	mkdir /mnt/boot
-	mount /dev/sda1 /mnt/boot
+	mount /dev/nvme0n1p1 /mnt/boot
+	mount | grep /mnt
 
 Connect internet with wifi
 
 	ip link
 	rfkill list
 	rfkill unblock 0
-	wifi-menu wifi0
-
-Make sure the earliest mirror is selected.
-Write the closest mirror on the top.
-
-	pacman -S vi vim
-	vi /etc/pacman.d/mirrorlist
+	iwctl
+	[iwd]# station wlan0 scan
+	[iwd]# station wlan0 get-networks
+	[iwd]# station wlan0 connect {SSID}
 
 Install bese bese-devel of arch
 
-    pacstrap /mnt base base-devel linux linux-firmware
+	pacstrap -K /mnt base linux linux-firmware vi
+
+Make sure the nearest mirror is selected.
+Write the nearest mirror on the top.
+
+	vi /etc/pacman.d/mirrorlist
+	Server = https://ftp.jaist.ac.jp/pub/Linux/ArchLinux/$repo/os/$arch
+	pacman -Syuu
 
 Generate fstab
 
-    genfstab -U -p /mnt >> /mnt/etc/fstab
+    genfstab -U /mnt >> /mnt/etc/fstab
 
 Mount and log in as bash login shell
 
-    arch-chroot /mnt /bin/bash
+    arch-chroot /mnt
 
 Set the host name
 
@@ -257,11 +268,11 @@ Time zone example
 
 Time adjustment
 
-    hwclock --systohc --utc
+    hwclock --systohc
 
 Generate kernel image
 
-    mkinitcpio -p linux
+    mkinitcpio -P
 
 Generate user
 
@@ -273,6 +284,7 @@ Set password
 
 Set groups and permissions
 
+	pacman -S sudo
     visudo
 
 Uncomment comment out following
@@ -280,10 +292,14 @@ Uncomment comment out following
 	Defaults env_keep += “ HOME ”
 	%wheel ALL=(ALL) ALL
 
-Set boot loader
+Install intel-ucode(install before boot loader)
 
-	pacman -S grub dosfstools efibootmgr
-	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub --recheck --debug
+	pacman -S intel-ucode
+
+Set boot loader
+	
+	pacman -S grub efibootmgr
+	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 	grub-mkconfig -o /boot/grub/grub.cfg
 
 #### Prepare drivers and Xorg Gnome
@@ -291,7 +307,7 @@ Set boot loader
 Install drivers that match your environment
 
 	lspci | grep VGA
-	pacman -S intel-media-driver intel-ucode libva-utils
+	pacman -S intel-media-driver libva-utils
 	pacman -S xorg-server xorg-apps
 
 Gnome can be put as small as necessary
@@ -304,7 +320,6 @@ Gnome can be put as small as necessary
 Terminal uses urxvt and termite
 
 	pacman -S rxvt-unicode urxvt-perls
-	pacman -S termite
 
 Enable graphical login with gdm
 
@@ -323,12 +338,19 @@ Audio setting
 	exit
 	reboot
 
+For thinkpad x1 carbon gen10
+
+	pacman -S sof-firmware fprintd
+
 #### Login with ${USER} to arrange home directory
 
+Turn off autosuspend at config
+
+	urxvt -fn "xft:monospace-18" -fg white -bg black
 	sudo pacman -S xdg-user-dirs
 	LANG=C xdg-user-dirs-update --force
-	sudo pacman -S zsh git
-	sudo pacman -S noto-fonts noto-fonts-cjk chromium
+	sudo pacman -S zsh git base-devel
+	sudo pacman -S noto-fonts noto-fonts-cjk
 
 Install yay
 
@@ -337,10 +359,11 @@ Install yay
 	git clone https://aur.archlinux.org/yay.git
 	cd yay
 	makepkg -si
+	yay -S termite
 
 #### Preparing dotfiles
 
-	sudo pacman -S cifs-utils gvfs gvfs-smb git-crypt gnupg openssh
+	sudo pacman -S gvfs gvfs-smb git-crypt gnupg openssh
 
 Import the gpg key that has been backed up.
 
@@ -349,6 +372,10 @@ Import the gpg key that has been backed up.
 	gpg --edit-key masasam@users.noreply.github.com
 	gpg> trust
 
+Import the ssh key that has been backed up.
+
+	chmod 600 /path/to/private.key
+
 Run the following after set the ssh key
 
     mkdir -p ~/src/github.com/masasam
@@ -356,8 +383,14 @@ Run the following after set the ssh key
 	git clone git@github.com:masasam/dotfiles.git
 	cd dotfiles
 	git-crypt unlock
+	make rclone
+	make gnupg
+	make ssh
+	rclone sync drive:backup ${HOME}/backup
+	rclone sync dropbox:backup ${HOME}/backup
 	make install
 	make init
+	make chrome
 
 	# Below is for posting images of github
 	cd ~/Pictures
@@ -392,21 +425,21 @@ You can make install from here
 
 #### Install using pacman
 
-    sudo pacman -S firefox firefox-i18n-ja fping xdotool
+    sudo pacman -S firefox firefox-i18n-ja fping xdotool jc
     sudo pacman -S sylpheed emacs curl xsel tmux eog lhasa
     sudo pacman -S zsh-completions keychain syncthing lzop
-    sudo pacman -S powertop gimp unrar gnome-screenshot
+    sudo pacman -S powertop gimp unrar gnome-screenshot zellij
     sudo pacman -S file-roller xclip atool evince inkscape
     sudo pacman -S seahorse the_silver_searcher zeal vimiv
     sudo pacman -S cups-pdf htop neovim go pkgfile rsync elixir
 	sudo pacman -S nodejs whois nmap poppler-data ffmpeg gron
-	sudo pacman -S aspell aspell-en httperf asciidoc sbcl
+	sudo pacman -S aspell aspell-en httperf asciidoc sbcl rye
 	sudo pacman -S gdb hub wmctrl gpaste pkgstats ripgrep
 	sudo pacman -S linux-docs pwgen gauche screen ipcalc rbw
 	sudo pacman -S arch-install-scripts ctags parallel opencv
 	sudo pacman -S pandoc texlive-langjapanese texlive-latexextra
 	sudo pacman -S shellcheck cscope typescript packer alacritty
-	sudo pacman -S noto-fonts-cjk arc-gtk-theme jq dnsmasq exa
+	sudo pacman -S noto-fonts-cjk arc-gtk-theme jq dnsmasq eza
 	sudo pacman -S zsh-syntax-highlighting terraform wl-clipboard
 	sudo pacman -S npm llvm llvm-libs lldb hdparm rxvt-unicode 
 	sudo pacman -S mariadb-clients postgresql-libs tig lsof fzf
@@ -424,105 +457,34 @@ You can make install from here
 	sudo pacman -S gnome-logs qreator diskus sysprof bat mapnik
 	sudo pacman -S obs-studio wireshark-cli browserpass-chromium
 	sudo pacman -S editorconfig-core-c watchexec browserpass-firefox
-	sudo pacman -S man-db baobab ioping mkcert code detox git-lfs
-	sudo pacman -S guetzli fabric gtop pass github-cli libvterm
+	sudo pacman -S man-db baobab ioping mkcert detox git-lfs xsv
+	sudo pacman -S guetzli fabric gtop pass github-cli libvterm ruff
 	sudo pacman -S perl-net-ip hex miller btop diffoscope dust yq
 	sudo pacman -S sslscan abiword pyright miniserve fdupes deno
 	sudo pacman -S serverless mold fx httpie bash-language-server
+	sudo pacman -S difftastic
 
 ![activity](https://raw.githubusercontent.com/masasam/image/image/activity.png)
 
 #### Install using yay
 
-	yay -S appimagelauncher
-	yay -S beekeeper-studio
-	yay -S drone-cli
+	yay -S beekeeper-studio-bin
+	yay -S csvlens
+	yay -S downgrade
 	yay -S git-secrets
 	yay -S global
-	yay -S goobook-git
 	yay -S ibus-mozc
-	yay -S mozc
-	yay -S nkf
 	yay -S nvm
-	yay -S pencil
-	yay -S rbenv
 	yay -S rgxg
-	yay -S ripgrep-all
 	yay -S rtags
-	yay -S ruby-build
-	yay -S screenkey
-	yay -S sequeler-git
 	yay -S slack-desktop
-	yay -S tableplus
-	yay -S terraformer
+	yay -S zoom
 	yay -S yay
 
-##### Install using pip
+##### Install using python package
 
-	mkdir -p ${HOME}/.local
-	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-	python get-pip.py --user
-	pip install --user --upgrade pip
-	pip install --user ansible
-	pip install --user ansible-container
-	pip install --user ansible-lint
-	pip install --user autopep8
-	pip install --user awscli
-	pip install --user black
-	pip install --user cheat
-	pip install --user chromedriver-binary
-	pip install --user diagrams
-	pip install --user eralchemy
-	pip install --user faker
-	pip install --user flake8
-	pip install --user graph-cli
-	pip install --user importmagic
-	pip install --user ipywidgets
-	pip install --user jedi
-	pip install --user jupyter
-	pip install --user jupyterlab
-	pip install --user jupyterthemes
-	pip install --user litecli
-	pip install --user matplotlib
-	pip install --user mps-youtube
-	pip install --user mycli
-	pip install --user neovim
-	pip install --user nose
-	pip install --user opencv-python
-	pip install --user pandas
-	pip install --user pgcli
-	pip install --user pipenv
-	pip install --user poetry
-	pip install --user pre-commit
-	pip install --user progressbar2
-	pip install --user psycopg2-binary
-	pip install --user py-spy
-	pip install --user pydoc_utils
-	pip install --user pyflakes
-	pip install --user pygments
-	pip install --user pylint
-	pip install --user python-language-server
-	pip install --user r7insight_python
-	pip install --user ranger-fm
-	pip install --user redis
-	pip install --user rope
-	pip install --user rtv
-	pip install --user scikit-learn
-	pip install --user scipy
-	pip install --user scrapy
-	pip install --user seaborn
-	pip install --user selenium
-	pip install --user speedtest-cli
-	pip install --user streamlink
-	pip install --user termdown
-	pip install --user tldr
-	pip install --user tmuxp
-	pip install --user trash-cli
-	pip install --user truffleHog
-	pip install --user virtualenv
-	pip install --user virtualenvwrapper
-	pip install --user yapf
-	pip install --user youtube-dl
+	sudo pacman -S python-pip python-pipenv python-pdm python-seaborn python-ipywidgets python-jupyter-client
+	sudo pacman -S python-prompt_toolkit python-faker python-matplotlib python-nose python-pandas
 
 #### Install using golang
 
@@ -538,23 +500,11 @@ You can make install from here
 #### Install using yarn
 
 	mkdir -p ${HOME}/.node_modules
-	yarn global add babel-eslint
 	yarn global add cloc
-	yarn global add create-component-app
-	yarn global add create-nuxt-app
-	yarn global add create-react-app
 	yarn global add dockerfile-language-server-nodejs
-	yarn global add esbuild-linux-64
-	yarn global add eslint
-	yarn global add eslint-cli
-	yarn global add eslint-config-vue
-	yarn global add eslint-plugin-react
-	yarn global add eslint-plugin-vue@next
 	yarn global add expo-cli
 	yarn global add firebase-tools
 	yarn global add fx
-	yarn global add gulp
-	yarn global add	gulp-cli
 	yarn global add heroku
 	yarn global add indium
 	yarn global add javascript-typescript-langserver
@@ -568,10 +518,6 @@ You can make install from here
 	yarn global add now
 	yarn global add prettier
 	yarn global add parcel-bundler
-	yarn global add @vue/cli
-	yarn global add vue-language-server
-	yarn global add vue-native-cli
-	yarn global add webpack
 
 #### Kubernetes
 
@@ -592,7 +538,7 @@ Google Kubernetes Engine
 
 kind(Kubernetes IN Docker)
 
-	go install sigs.k8s.io/kind@v0.17.0
+	go install sigs.k8s.io/kind@v0.23.0
 	sudo sh -c "kind completion zsh > /usr/share/zsh/site-functions/_kind"
 
 minikube with kvm2
@@ -606,11 +552,11 @@ minikube with kvm2
 	sudo systemctl enable virtlogd.service
 	minikube config set vm-driver kvm2
 	
-#### rbenv rails
+#### rbenv
 
 	yay -S rbenv
 	yay -S ruby-build
-	rbenv install 2.5.1
+	rbenv install 3.1.4
 
 #### Install rust and language server
 
@@ -629,9 +575,8 @@ Terminal uses urxvt
 Setting for power save and to prevent battery deterioration.
 
 	sudo pacman -S tlp powertop
-	sudo ln -vsf ${PWD}/etc/default/tlp /etc/default/tlp
+	sudo ln -vsf ${PWD}/etc/tlp.conf /etc/tlp.conf
 	systemctl enable tlp.service
-	systemctl enable tlp-sleep.service
 
 ![PowerTop](https://raw.githubusercontent.com/masasam/image/image/powertop.png)
 
@@ -642,15 +587,6 @@ Setting for power save and to prevent battery deterioration.
 	fwupdmgr refresh
 	fwupdmgr get-updates
 	fwupdmgr update
-
-After you update the UEFI BIOS, you will need to reconfigure grub when next boot. Boot with arch linux usb memory and do as follows.
-This work is not necessary after the second time.
-
-	mount /dev/sda2 /mnt
-	mount /dev/sda1 /mnt/boot
-	arch-chroot /mnt /bin/bash
-	grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=arch_grub --recheck --debug
-	grub-mkconfig -o /boot/grub/grub.cfg
 
 # Enable DNS cache
 

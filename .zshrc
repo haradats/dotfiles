@@ -1,4 +1,5 @@
 # zshrc
+fpath=("$HOME/.zfunc" ${fpath})
 plugins=(… zsh-completions)
 autoload -U compinit promptinit
 compinit
@@ -260,9 +261,7 @@ alias df='df -h'
 alias free='free -h --si'
 alias iv='sxiv'
 alias is='whois'
-if whence ip >/dev/null; then
-    alias myip="ip -4 a show wlp2s0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'"
-fi
+alias myip="ip -4 a show wlp0s20f3 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'"
 alias e='emacsclient'
 alias testemacs='emacs -q -l ~/.emacs.d/test.el'
 alias open='xdg-open'
@@ -270,6 +269,9 @@ alias mysql="mysql --pager='less -S -n -i -F -X'"
 alias syncdropbox='time rclone sync ${HOME}/backup dropbox:backup'
 alias syncdrive='time rclone sync ${HOME}/backup drive:backup'
 alias backupcloud='syncdropbox; syncdrive'
+alias followupdropbox='time rclone sync dropbox:backup ${HOME}/backup'
+alias followupdrive='time rclone sync drive:backup ${HOME}/backup'
+alias followupcloud='followupdropbox; followupdrive'
 alias zshbackup='rm -rf ${HOME}/backup/zsh/backup/`ls -rt ${HOME}/backup/zsh/backup | head -n 1`; tar cfz ${HOME}/backup/zsh/backup/`date '+%Y%m%d%H%M%S'`.tar.gz -C ${HOME}/backup/zsh/ .zsh_history'
 alias melpabackup='rm -rf ${HOME}/backup/emacs/elpa/`ls -rt ${HOME}/backup/emacs/elpa | head -n 1`; tar cfz ${HOME}/backup/emacs/elpa/`date '+%Y%m%d%H%M%S'`.tar.gz -C ${HOME}/.emacs.d elpa'
 alias melpacleanup='rm -rf ${HOME}/.emacs.d/elpa'
@@ -283,20 +285,18 @@ alias cargoupdate='cargo install-update -a'
 alias cargocleanup='rm -rf ${HOME}/.cargo/bin/*; cd ${HOME}/src/github.com/masasam/dotfiles; make rustinstall; cd -'
 alias yarnupdate='yarn global upgrade'
 alias yarncleanupcash='yarn cache clean'
-alias pipbackup='cd ${HOME}/src/github.com/masasam/dotfiles; make pipbackup; cd -'
-alias pipupdate='pip list --user | cut -d" " -f 1 | tail -n +3 | xargs pip install -U --user'
-alias pipcleanup='pip cache purge'
 alias archupdate='yay -Syu; paccache -r; paccache -ruk0'
 alias archbackup='cd ${HOME}/src/github.com/masasam/dotfiles; make backup; cd -'
 alias gcloudupdate='gcloud components update'
 alias battery='sudo tlp-stat -b'
+alias ibusrestart='ibus-daemon -drx'
 alias uefiupdate='fwupdmgr refresh --force; fwupdmgr get-updates; fwupdmgr update'
 alias soundrecord='arecord -t wav -f dat -q | lame -b 128 -m s - out.mp3'
 alias fontlist='fc-list | cut -d: -f1 | less'
 alias fontlistja='fc-list :lang=ja | cut -d: -f1 | less'
 alias jupytertheme='jt -t chesterish -T -f roboto -fs 9 -tf merriserif -tfs 11 -nf ptsans -nfs 11 -dfs 8 -ofs 8'
 alias myvpn='cd ~/backup/openvpn; sudo openvpn --config client.conf'
-alias allupdate='time archupdate && time melpabackup && time zshbackup && time pipupdate && time pipbackup && time archbackup && time backupcloud && time yarnupdate && time goupdate'
+alias allupdate='time archupdate && time melpabackup && time zshbackup && time archbackup && time backupcloud && time yarnupdate && time goupdate'
 alias djangoinit='python manage.py create_required_buckets && python manage.py collectstatic && python manage.py migrate && python manage.py createsuperuser && python manage.py runserver'
 
 
@@ -332,7 +332,6 @@ export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 
 ifconfig wlp2s0 >/dev/null 2>&1 &&
 export LOCAL_HOST_IP=`ifconfig wlp2s0 | grep inet | grep -v inet6 | sed -E "s/inet ([0-9]{1,3}.[0-9]{1,3}.[0-9].{1,3}.[0-9]{1,3}) .*$/\1/" | tr -d "\t"`
-
 # cdr
 autoload -Uz is-at-least
 if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
@@ -910,7 +909,6 @@ function dirsum() {
     fi	
 }
 
-
 # zsh-syntax-highlighting(pacman -S zsh-syntax-highlighting)
 if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -937,18 +935,6 @@ if [ -f '/home/masa/google-cloud-sdk/path.zsh.inc' ]; then . '/home/masa/google-
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/masa/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/masa/google-cloud-sdk/completion.zsh.inc'; fi
-
-# pip zsh completion start
-function _pip_completion {
-  local words cword
-  read -Ac words
-  read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
-}
-compctl -K _pip_completion pip
-# pip zsh completion end
 
 # zsh-completions for aws v2
 autoload bashcompinit

@@ -1,46 +1,41 @@
 export PATH := ${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/bin/core_perl:${HOME}/bin:${HOME}/google-cloud-sdk/bin
 export GOPATH := ${HOME}
 
-NODE_PKGS	:= babel-eslint cloc create-nuxt-app create-react-app webpack firebase-tools now
-NODE_PKGS	+= dockerfile-language-server-nodejs eslint eslint-cli eslint-config-vue netlify-cli
-NODE_PKGS	+= eslint-plugin-react eslint-plugin-vue@next expo-cli fx heroku ngrok prettier
-NODE_PKGS	+= indium intelephense logo.svg @marp-team/marp-cli jshint parcel-bundler
-NODE_PKGS	+= mermaid mermaid.cli
+BASE_PKGS	:= filesystem gcc-libs glibc bash coreutils file findutils gawk grep procps-ng sed tar gettext
+BASE_PKGS	+= pciutils psmisc shadow util-linux bzip2 gzip xz licenses pacman systemd systemd-sysvcompat 
+BASE_PKGS	+= iputils iproute2 autoconf sudo automake binutils bison fakeroot flex gcc groff libtool m4 
+BASE_PKGS	+= make patch pkgconf texinfo which
 
-PIP_PKGS	:= ansible ansible-lint beautifulsoup4 black cheat chromedriver-binary diagrams django djangorestframework
-PIP_PKGS	+= django-nested-admin django-ses faker gif-for-cli graph-cli importmagic ipywidgets virtualenvwrapper
-PIP_PKGS	+= jupyter jupyterlab jupyterthemes litecli matplotlib neovim nose pandas pipenv poetry pre-commit
-PIP_PKGS	+= progressbar2 psycopg2-binary py-spy pydantic pydoc_utils r7insight_python redis requests_mock
-PIP_PKGS	+= rtv scipy scrapy seaborn selenium speedtest-cli streamlink tldr trash-cli truffleHog virtualenv
-PIP_PKGS	+= zappa termdown jinja2 chromedriver-binary
-
-PACKAGES	:= base go zsh git vim tmux keychain evince unrar hugo ethtool zsh-completions xsel emacs gvfs-smb
+PACKAGES	:= base go zsh git vim tmux keychain evince unrar hugo ethtool zsh-completions xsel emacs gvfs-smb difftastic
 PACKAGES	+= unace iperf valgrind noto-fonts-emoji inkscape file-roller xclip atool debootstrap oath-toolkit 
 PACKAGES	+= imagemagick lynx the_silver_searcher cifs-utils elinks flameshot ruby-rdoc ipcalc traceroute
 PACKAGES	+= cups-pdf firefox firefox-i18n-ja gimp strace lhasa hub bookworm tig sysprof pkgfile dconf-editor
 PACKAGES	+= rsync nodejs debian-archive-keyring gauche cpio aria2 nmap poppler-data ffmpeg asciidoc sbcl 
 PACKAGES	+= aspell aspell-en screen mosh diskus gdb wmctrl pwgen linux-docs htop tcpdump gvfs p7zip lzop fzf 
 PACKAGES	+= gpaste optipng arch-install-scripts pandoc jq pkgstats ruby highlight alsa-utils geckodriver
-PACKAGES	+= texlive-langjapanese tokei texlive-latexextra ctags hdparm eog curl parallel arc-gtk-theme npm 
+PACKAGES	+= texlive-langjapanese tokei texlive-latexextra ctags hdparm eog curl parallel npm yq ansible
 PACKAGES	+= typescript llvm llvm-libs lldb tree w3m whois csvkit pass zsh-syntax-highlighting shellcheck
 PACKAGES	+= bash-completion mathjax expect obs-studio cscope postgresql-libs pdfgrep gnu-netcat cmatrix btop
-PACKAGES	+= jpegoptim nethogs mlocate pacman-contrib x11-ssh-askpass libreoffice-fresh-ja python-prompt_toolkit
+PACKAGES	+= jpegoptim nethogs mlocate pacman-contrib x11-ssh-askpass libreoffice-fresh-ja tldr streamlink
 PACKAGES	+= jhead peek ncdu gnome-screenshot sshfs fping syncthing terraform bat lshw xdotool sshuttle packer 
 PACKAGES	+= ripgrep stunnel vimiv adapta-gtk-theme gnome-tweaks firejail opencv hexedit discord pv perl-net-ip
 PACKAGES	+= smartmontools gnome-logs wireshark-cli wl-clipboard lsof mapnik editorconfig-core-c watchexec
-PACKAGES	+= gtop gopls convmv mpv browserpass-firefox man-db baobab ioping ruby-irb mkcert code findomain
-PACKAGES	+= guetzli fabric python-language-server detox usleep libvterm bind asunder lame git-lfs hex miller
-PACKAGES	+= diffoscope dust rbw exa sslscan abiword pyright miniserve fdupes deno serverless mold fx httpie
-PACKAGES	+= bash-language-server gron pyenv typescript-language-server yq
+PACKAGES	+= gtop gopls convmv mpv browserpass-firefox man-db baobab ioping ruby-irb mkcert findomain pyenv
+PACKAGES	+= guetzli fabric detox usleep libvterm bind asunder lame git-lfs hex miller bash-language-server
+PACKAGES	+= diffoscope dust rbw eza sslscan abiword pyright miniserve fdupes deno serverless mold fx httpie
+PACKAGES	+= gron typescript-language-server dateutils time xsv rust git-delta zellij jc ruff speedtest-cli
 
-BASE_PKGS	:= filesystem gcc-libs glibc bash coreutils file findutils gawk grep procps-ng sed tar gettext
-BASE_PKGS	+= pciutils psmisc shadow util-linux bzip2 gzip xz licenses pacman systemd systemd-sysvcompat 
-BASE_PKGS	+= iputils iproute2 autoconf sudo automake binutils bison fakeroot flex gcc groff libtool m4 
-BASE_PKGS	+= make patch pkgconf texinfo which
+PIP_PKGS	:= python-pip python-pipenv python-pdm python-seaborn python-ipywidgets python-jupyter-client
+PIP_PKGS	+= python-prompt_toolkit python-faker python-matplotlib python-nose python-pandas
 
-PACMAN		:= sudo apt install -y
+NODE_PKGS	:= babel-eslint cloc firebase-tools now mermaid mermaid.cli parcel-bundler
+NODE_PKGS	+= dockerfile-language-server-nodejs eslint eslint-cli eslint-config-vue netlify-cli
+NODE_PKGS	+= eslint-plugin-react eslint-plugin-vue@next expo-cli fx heroku ngrok prettier
+NODE_PKGS	+= indium intelephense logo.svg @marp-team/marp-cli jshint
+
+PACMAN		:= sudo pacman -S 
 SYSTEMD_ENABLE	:= sudo systemctl --now enable
-FLUTTER_URL	:= https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.3.7-stable.tar.xz
+FLUTTER_URL	:= https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.22.0-stable.tar.xz
 
 .DEFAULT_GOAL := help
 .PHONY: all allinstall nextinstall allupdate allbackup
@@ -69,7 +64,6 @@ gnupg: ## Deploy gnupg (Run after rclone)
 ssh: ## Init ssh
 	$(PACMAN) open$@
 	mkdir -p ${HOME}/.$@
-	ln -vsf {${PWD},${HOME}}/.ssh/{config,known_hosts}
 	chmod 600 ${HOME}/.ssh/id_rsa
 
 init: ## Initial deploy dotfiles
@@ -86,21 +80,21 @@ init: ## Initial deploy dotfiles
 	# sudo ln -vsf {${PWD},}/etc/hosts
 	sudo ln -vsf {${PWD},}/etc/wsl.conf
 
-
 base: ## Install base and base-devel package
 	$(PACMAN) $(BASE_PKGS)
 
 install: ## Install arch linux packages using pacman
 	$(PACMAN) $(PACKAGES)
+	$(PACMAN) pkgfile
 	sudo pkgfile --update
 
-pipinstall: ${HOME}/.local ## Install python packages
-	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-	python ${PWD}/get-pip.py --user
-	sudo ln -vsf ${PWD}/usr/share/zsh/site-functions/_pipenv /usr/share/zsh/site-functions/_pipenv
-	pip install --user --upgrade pip
-	pip install --user $(PIP_PKGS)
-	rm -fr get-pip.py
+rye: ## Install rye and setup
+	$(PACMAN) rye
+	mkdir ~/.zfunc
+	rye self completion -s zsh > ~/.zfunc/_rye
+
+pipinstall: ## Install python packages
+	$(PACMAN) $(PIP_PKGS)
 
 goinstall: ${HOME}/.local ## Install go packages
 	go install golang.org/x/tools/gopls@latest
@@ -111,13 +105,15 @@ goinstall: ${HOME}/.local ## Install go packages
 	go install github.com/jmhodges/jsonpp@latest
 	go install github.com/mithrandie/csvq@latest
 
-nodeinstall: ## Install node packages
-	sudo pacman -S yarn
+nodeinstall: ## Install node global packages
+	mkdir -p ${HOME}/.config/yarn/global
+	ln -vsf ${PWD}/archlinux/package.json ${HOME}/.config/yarn/global/package.json
+	$(PACMAN) yarn
 	mkdir -p ${HOME}/.node_modules
 	for pkg in $(NODE_PKGS); do yarn global add $$pkg; done
 
 rustinstall: ## Install rust and rust language server
-	sudo pacman -S rustup
+	$(PACMAN) rustup
 	rustup default stable
 	rustup component add rls rust-analysis rust-src
 
@@ -172,8 +168,8 @@ dnsmasq: ## Init dnsmasq
 
 tlp: ## Setting for power saving and preventing battery deterioration
 	$(PACMAN) $@ powertop
-	sudo ln -vsf {${PWD},}/etc/default/$@
-	$(SYSTEMD_ENABLE) $@.service $@-sleep.service
+	sudo ln -vsf {${PWD},}/etc/$@.conf
+	$(SYSTEMD_ENABLE) $@.service
 
 lvfs: ## For Linux Vendor Firmware Service
 	$(PACMAN) fwupd dmidecode
@@ -182,7 +178,14 @@ lvfs: ## For Linux Vendor Firmware Service
 uefiupdate: ## Update system firmware and uefi
 	for action in refresh get-updates update; do fwupdmgr $$action; done
 
-thinkpad: ## Workaround for Intel throttling issues in Linux
+gtk-theme: ## Set gtk theme
+	$(PACMAN) gnome-themes-extra arc-gtk-theme xdg-desktop-portal-gnome
+	gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
+	sudo ln -vsf ${PWD}/.xprofile ${HOME}/.xprofile
+	test -L ${HOME}/.config/gtk-4.0 || rm -rf ${HOME}/.config/gtk-4.0
+	ln -vsfn ${PWD}/.config/gtk-4.0 ${HOME}/.config/gtk-4.0
+
+throttled: ## Workaround for Intel throttling issues in thinkpad x1 carbon gen6
 	$(PACMAN) throttled
 	$(SYSTEMD_ENABLE) throttled
 
@@ -215,7 +218,7 @@ ttf-cica: ## Install Cica font
 	yay -S $@
 
 dconfsetting: # Initial dconf setting
-	sudo pacman -S dconf-editor
+	$(PACMAN) dconf-editor
 	dconf write /org/gnome/desktop/input-sources/xkb-options "['ctrl:nocaps']"
 	dconf write /org/gnome/desktop/interface/gtk-theme "'Adwaita-dark'"
 	dconf write /org/gnome/desktop/interface/gtk-key-theme "'Emacs'"
@@ -263,6 +266,13 @@ mariadb: ## Mariadb initial setup
 	mysql_secure_installation
 	mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
 
+mysql: ## mysql initial setup
+	yay mysql-clients80
+	yay mysql80
+	sudo mysqld --initialize --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+	$(SYSTEMD_ENABLE) mysqld.service
+	mysql_secure_installation
+
 tailscale: ## tailscale initial setup
 	$(PACMAN) $@
 	$(SYSTEMD_ENABLE) $@d
@@ -280,18 +290,18 @@ remotedesktop: ## Install remotedesktop
 	$(PACMAN) remmina freerdp libvncserver
 
 eralchemy: ## Install eralchemy
-	sudo pacman -S graphviz
-	pip install --user $@
+	$(PACMAN) graphviz
+	yay -S $@
 
 mycli: ## Init mycli
 	mkdir -p ${HOME}/backup/$@
-	pip install --user $@
+	yay -S $@
 	ln -vsf ${HOME}{/backup/$@,}/.$@-history
 
 pgcli: ## Init pgcli
 	mkdir -p ${HOME}/backup
-	pip install --user $@
-	test -L ${HOME}/.config/$@ || rm -rf ${HOME}/.config/$@
+	yay -S $@
+	test -L ${HOME}/.config/pgcli || rm -rf ${HOME}/.config/pgcli
 	ln -vsfn ${HOME}/{backup,.config}/$@
 
 gcloud: ## Install google cloud SDK and setting
@@ -310,7 +320,7 @@ minikube: ## Setup minikube with kvm2
 	$@ config set vm-driver kvm2
 
 kind: ## Setup kind (Kubernetes In Docker)
-	go install sigs.k8s.io/kind@v0.17.0
+	go install sigs.k8s.io/kind@v0.23.0
 	sudo sh -c "kind completion zsh > /usr/share/zsh/site-functions/_kind"
 
 redis: ## Redis inital setup
@@ -335,15 +345,6 @@ flutter: ## Install flutter
 	mkdir -p ~/src/github.com/$@
 	wget -O- $(FLUTTER_URL) | tar -C ~/src/github.com/$@ xf-
 
-jdk: ## Install jdk
-	$(PACMAN) jdk8-openjdk
-
-mpsyt: ## Install and deploy mps-youtube
-	pip install --user mps-youtube youtube-dl
-	mkdir -p ${HOME}/.config/mps-youtube
-	test -L ${HOME}/.config/mps-youtube/playlists || rm -rf ${HOME}/.config/mps-youtube/playlists
-	ln -vsfn ${HOME}/backup/youtube/playlists ${HOME}/.config/mps-youtube/playlists
-
 spotify: ## Install spotify
 	gpg --keyserver hkp://keyserver.ubuntu.com --receive-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
 	yay -S spotify
@@ -355,7 +356,7 @@ sxiv: ## Init sxiv
 
 zeal: ## Deploy zeal config and docsets
 	yay -S $@
-	sudo pacman -S qt5-styleplugins qt5ct
+	$(PACMAN) qt5-styleplugins qt5ct
 	sudo ln -vsf ${PWD}/etc/environment /etc/environment
 	mkdir -p ${HOME}/.config/Zeal
 	ln -vsf {${PWD},${HOME}}/.config/Zeal/Zeal.conf
@@ -370,24 +371,25 @@ yay: ## Install yay using yay
 	yay -S $@
 
 aur: ## Install arch linux AUR packages using yay
-	yay -S downgrade git-secrets nvm pscale-cli rgxg slack-desktop trdsql-bin zoom
+	yay -S csvlens downgrade git-secrets nvm pscale-cli rgxg slack-desktop trdsql-bin tree-sitter-rust zoom
 
 sequeler: ## Install gui database tools
 	yay -S $@-git
 
 beekeeper: ## Setup beekeeper-studio
-	yay -S $@-studio
+	yay -S $@-studio-bin
 	test -L ${HOME}/.config/$@-studio || rm -rf ${HOME}/.config/$@-studio
 	ln -vsfn ${HOME}/{backup,.config}/$@-studio
 
 dbeaver: ## Setup dbeaver
+	$(PACMAN) jdk-openjdk
 	$(PACMAN) dbeaver
-	sudo archlinux-java set java-19-openjdk
+	sudo archlinux-java set java-21-openjdk
 
 gh: ## Install and setup github-cli
 	$(PACMAN) github-cli
-	test -L ${HOME}/.config/$@ || rm -rf ${HOME}/.config/$@
-	ln -vsfn ${HOME}/{backup,.config}/$@
+	test -L ${HOME}/.config/gh || rm -rf ${HOME}/.config/gh
+	ln -vsfn ${HOME}/{backup,.config}/gh
 	gh extension install seachicken/gh-poi
 
 aurplus: ## Install arch linux AUR packages using yay
@@ -397,7 +399,7 @@ terraformer: ## Install terraformer
 	curl -LO https://github.com/GoogleCloudPlatform/$@/releases/download/`curl -s https://api.github.com/repos/GoogleCloudPlatform/$@/releases/latest | grep tag_name | cut -d '"' -f 4`/$@-aws-linux-amd64
 	sudo install -m 755 $@-aws-linux-amd64 /usr/local/bin/$@ && rm $@-aws-linux-amd64
 
-bluetooth: # Setup bluetooth for AS801 by AfterShokz
+bluetooth: # Setup bluetooth
 	$(PACMAN) bluez bluez-utils
 	$(SYSTEMD_ENABLE) bluetooth.service
 	sudo ln -vsf ${PWD}/etc/bluetooth/main.conf /etc/bluetooth/main.conf
@@ -412,20 +414,17 @@ toggle: ## Prepare command that toggle between emacs and browser
 	sudo install ${PWD}/.$@.sh /usr/local/bin/$@
 
 aws: ${HOME}/.local ## Init aws cli
-	pip install --user awscli
+	$(PACMAN) aws-cli
 	ln -vsfn {${PWD},${HOME}}/.$@
 
 awsv2: ## Init aws cli version 2
-	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-	unzip awscliv2.zip
-	sudo ./aws/install
+	$(PACMAN) aws-cli-v2
 	test -L ${HOME}/.aws || rm -rf ${HOME}/.aws
 	ln -vsfn ${PWD}/.aws ${HOME}/.aws
-	rm -fr awscliv2.zip aws
-	pip install --user awslogs
+	yay -S awslogs
 
 tmuxp: ${HOME}/.local ## Install tmuxp
-	pip install --user $@
+	$(PACMAN) $@
 	sudo ln -vsf {${PWD},${HOME}}/.config/main.yaml
 
 roswell: ## Install ros and lem
@@ -452,7 +451,7 @@ chromium: ## Install chromium and noto-fonts and browserpass
 
 chrome: ## Install chrome and noto-fonts and browserpass
 	yay -S google-$@
-	$(PACMAN) browserpass-$@ noto-fonts noto-fonts-cjk
+	$(PACMAN) browserpass noto-fonts noto-fonts-cjk
 	$(MAKE) -C /usr/lib/browserpass hosts-$@-user
 	test -L ${HOME}/.password-store || rm -rf ${HOME}/.password-store
 	ln -vsfn ${HOME}/backup/browserpass ${HOME}/.password-store
@@ -478,13 +477,13 @@ mongodb: ## Mongodb initial setup
 	$(SYSTEMD_ENABLE) $@.service
 
 gnuglobal: ${HOME}/.local ## Install gnu global
-	pip install --user pygments
+	$(PACMAN) python-pygments
 	yay -S global
 
 .ONESHELL:
 SHELL = /bin/bash
 elixir-ls: ## Install elixir-ls(Recompile if the version of elixir changes)
-	sudo pacman -S elixir
+	$(PACMAN) elixir
 	git clone git@github.com:JakeBecker/elixir-ls.git ${HOME}/src/github.com/JakeBecker/$@
 	cd $$_ && mkdir rel
 	mix deps.get && mix compile
@@ -503,7 +502,7 @@ screenkey: ## Init screenkey
 rbenv: ## Install rvenv ruby-build
 	yay -S $@
 	yay -S ruby-build
-	$@ install 2.7.2
+	$@ install 3.1.4
 	$@ rehash
 	gem install bundle
 
@@ -512,10 +511,15 @@ rubygem: ## Install rubygem package
 	gem install bundler jekyll sass compass rawler rdoc irb rails
 
 django: ## Create django project from scratch
-	mkdir -p ${HOME}/src/github.com/masasam/djangoproject && cd $$_ && touch Pipfile && \
-	pipenv --python=3.8.6 && \
-	pipenv install $@ && \
-	pipenv run $@-admin startproject config .
+	mkdir -p ${HOME}/src/github.com/masasam && cd $$_ && \
+	rye init newproject && \
+	cd newproject && \
+	rye pin 3.9 && \
+	rye add django && \
+	rye add python-dotenv && \
+	rye sync && \
+	source .venv/bin/activate && \
+	django-admin startproject config .
 
 .ONESHELL:
 rails: rubygem rbenv ## Create rails project from scratch
@@ -524,12 +528,11 @@ rails: rubygem rbenv ## Create rails project from scratch
 	  export PATH="${RBENV_ROOT}/bin:${PATH}"
 	  eval "$(rbenv init -)"
 	fi
-	rbenv global 2.7.2
 	rbenv rehash
 	mkdir -p ${HOME}/src/github.com/masasam/$@; cd $$_
-	rbenv local 2.7.2
+	rbenv local 3.1.4
 	bundle init
-	echo "gem '$@', '~> 6.0.3.3'" >> Gemfile
+	echo "gem '$@', '~> 7.1.3'" >> Gemfile
 	bundle install --path vendor/bundle
 	bundle exec $@ new . --database=mysql --skip-test --skip-turbolinks
 	bundle exec $@ webpacker:install
@@ -554,13 +557,6 @@ update: ## Update arch linux packages and save packages cache 3 generations
 pipbackup: ## Backup python packages
 	mkdir -p ${PWD}/archlinux
 	pip freeze > ${PWD}/archlinux/requirements.txt
-
-piprecover: ## Recover python packages
-	mkdir -p ${PWD}/archlinux
-	pip install --user -r ${PWD}/archlinux/requirements.txt
-
-pipupdate: ## Update python packages
-	pip list --user | cut -d" " -f 1 | tail -n +3 | xargs pip install -U --user
 
 rustupdate: ## Update rust packages
 	cargo install-update -a
@@ -594,10 +590,10 @@ testpath: ## Echo PATH
 	GOPATH=$$GOPATH
 	@echo $$GOPATH
 
-allinstall: rclone gnupg ssh install init keyring urxvt xterm termite yay tlp pipewire-pulse ttf-cica dnsmasq pipinstall goinstall fcitx-mozc neomutt docker nodeinstall zeal lvfs gcloud awsv2 toggle aur beekeeper kind eralchemy mpsyt gh
+allinstall: dconfsetting rclone gnupg ssh install init keyring urxvt xterm termite yay tlp pipewire-pulse ttf-cica dnsmasq goinstall ibusmozc neomutt docker lvfs toggle aur beekeeper kind gtk-theme chrome rye pipinstall
 
-nextinstall: chrome rubygem rbenv rustinstall postgresql maria-db mycli pgcli dbeaver
+nextinstall: mysql mycli pgcli nodeinstall rubygem rbenv rustinstall postgresql zeal gcloud awsv2 eralchemy gh
 
-allupdate: update pipupdate rustupdate goinstall yarnupdate
+allupdate: update rustupdate goinstall yarnupdate
 
 allbackup: backup pipbackup
