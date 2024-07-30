@@ -6,7 +6,7 @@
 ;;(setq debug-on-error t)
 
 (menu-bar-mode t)
-(tool-bar-mode t)
+(tool-bar-mode nil)
 (scroll-bar-mode 0)
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
@@ -16,6 +16,7 @@
 
 (set-language-environment "Japanese")           ; 言語環境を"japanese"に
 (setq default-input-method "japanese-mozc")     ; IMEをjapanes-mozcに
+(global-set-key (kbd "C-\\") 'toggle-input-method)
 (prefer-coding-system 'utf-8)                   ; デフォルトの文字コードをUTF-8に
 
 (require 'package)
