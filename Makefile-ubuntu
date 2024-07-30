@@ -38,10 +38,12 @@ PIP_PKGS	+= zappa termdown jinja2
 # PACKAGES	+= guetzli fabric python-language-server detox usleep libvterm bind asunder lame git-lfs hex miller
 # PACKAGES	+= diffoscope dust rbw exa sslscan abiword pyright miniserve fdupes deno serverless mold fx httpie
 # PACKAGES	+= bash-language-server gron pyenv
-PACKAGES    := zsh git vim keychain lynx aspell-en screen zsh-syntax-highlighting bash-completion w3m
-PACKAGES    += fzf libssl-dev libncurses-dev libbz2-dev libreadline-dev python3-tk lzma-dev
-PACKAGES    += tmux manpages-ja manpages-ja-dev
-PACKAGES    += emacs emacs-mozc emacs-mozc-bin
+PACKAGES    := zsh zsh-doc zsh-syntax-highlighting bash-completion fzf
+PACKAGES    := git vim keychain lynx aspell-en w3m screen tmux
+PACKAGES    += libssl-dev libncurses-dev libbz2-dev libreadline-dev python3-tk lzma-dev x11-xserver-utils
+PACKAGES    += apt-file rsync
+PACKAGES    += manpages-ja manpages-ja-dev
+PACKAGES    += emacs emacs-mozc emacs-mozc-bin emacs-el emacs-gtk fcitx5-mozc mozc-utils-gui
 PACKAGES    += texlive-lang-japanese texlive-luatex texlive-latex-recommended
 
 # BASE_PKGS	:= filesystem gcc-libs glibc bash coreutils file findutils gawk grep procps-ng sed tar gettext
