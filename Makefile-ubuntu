@@ -70,7 +70,7 @@ all: allinstall nextinstall allupdate allbackup
 ${HOME}/.local:
 	mkdir -p $@
 
-Zscaler_RootCA.crt: ${HOME}/backup/cert/Zscaler_RootCA.cer
+ca-bundle.pem: ${HOME}/backup/cert/ca-bundle.cer
 	openssl x509 -inform DER -in $< -out $@
 	sudo mkdir -p /usr/share/ca-certificates/extra
 	grep -q "extra/$@" /etc/ca-certificates.conf || echo "extra/$@" | sudo tee -a /etc/ca-certificates.conf
@@ -79,7 +79,7 @@ Zscaler_RootCA.crt: ${HOME}/backup/cert/Zscaler_RootCA.cer
 	echo "cacert = $(<D)/$@" >> ${HOME}/.curlrc
 	# ${HOME}/.pip/pip.conf
 	# [global]
-	# cert = /home/harada/backup/cert/Zscaler_RootCA.crt
+	# cert = ${HOME}/backup/cert/ca-bundle.pem
 
 nvm:
 	export NVM_DIR=${HOME}/.config/nvm
