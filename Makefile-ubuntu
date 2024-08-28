@@ -70,12 +70,12 @@ all: allinstall nextinstall allupdate allbackup
 ${HOME}/.local:
 	mkdir -p $@
 
-ca-bundle.pem: ${HOME}/backup/cert/ca-bundle.cer
-	openssl x509 -inform DER -in $< -out $@
+ca-bundle: ${HOME}/backup/cert/ca-bundle.pem
+	# openssl x509 -inform DER -in $< -out $@
 	sudo mkdir -p /usr/share/ca-certificates/extra
+	sudo cp -i $@ $(<)
 	grep -q "extra/$@" /etc/ca-certificates.conf || echo "extra/$@" | sudo tee -a /etc/ca-certificates.conf
 	sudo update-ca-certificates
-	cp $@ $(<D)
 	echo "cacert = $(<D)/$@" >> ${HOME}/.curlrc
 	# ${HOME}/.pip/pip.conf
 	# [global]
