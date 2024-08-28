@@ -76,7 +76,7 @@ ca-bundle: ${HOME}/backup/cert/ca-bundle.pem
 	sudo cp -i $(<) /usr/share/ca-certificates/extra/
 	grep -q "extra/$@" /etc/ca-certificates.conf || echo "extra/$@" | sudo tee -a /etc/ca-certificates.conf
 	sudo update-ca-certificates
-	echo "cacert = $(<D)/$@" >> ${HOME}/.curlrc
+	echo "cacert = $(<)" >> ${HOME}/.curlrc
 	# ${HOME}/.pip/pip.conf
 	# [global]
 	# cert = ${HOME}/backup/cert/ca-bundle.pem
