@@ -73,7 +73,7 @@ ${HOME}/.local:
 ca-bundle: ${HOME}/backup/cert/ca-bundle.pem
 	# openssl x509 -inform DER -in $< -out $@
 	sudo mkdir -p /usr/share/ca-certificates/extra
-	sudo cp -i $@ $(<)
+	sudo cp -i $(<) /usr/share/ca-certificates/extra/
 	grep -q "extra/$@" /etc/ca-certificates.conf || echo "extra/$@" | sudo tee -a /etc/ca-certificates.conf
 	sudo update-ca-certificates
 	echo "cacert = $(<D)/$@" >> ${HOME}/.curlrc
