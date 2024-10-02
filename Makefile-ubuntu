@@ -39,7 +39,7 @@ PIP_PKGS	+= zappa termdown jinja2
 # PACKAGES	+= diffoscope dust rbw exa sslscan abiword pyright miniserve fdupes deno serverless mold fx httpie
 # PACKAGES	+= bash-language-server gron pyenv
 PACKAGES    := zsh zsh-doc zsh-syntax-highlighting bash-completion fzf
-PACKAGES    += git vim keychain lynx aspell-en w3m screen tmux
+PACKAGES    += git vim keychain lynx aspell-en w3m screen tmux x11-apps
 PACKAGES    += libssl-dev libncurses-dev libbz2-dev libreadline-dev python3-tk lzma-dev x11-xserver-utils
 PACKAGES    += apt-file rsync
 PACKAGES    += manpages-ja manpages-ja-dev
@@ -50,7 +50,7 @@ PACKAGES    += texlive-lang-japanese texlive-luatex texlive-latex-recommended
 # BASE_PKGS	+= pciutils psmisc shadow util-linux bzip2 gzip xz licenses pacman systemd systemd-sysvcompat 
 # BASE_PKGS	+= iputils iproute2 autoconf sudo automake binutils bison fakeroot flex gcc groff libtool m4 
 # BASE_PKGS	+= make patch pkgconf texinfo which
-BASE_PKGS   := build-essential language-pack-ja binutils net-tools texinfo lzip
+BASE_PKGS   := build-essential language-pack-ja binutils net-tools texinfo lzip xlunzip libsqlite3-dev
 
 # PACMAN		:= sudo pacman -S 
 PACMAN		:= sudo apt install -y
