@@ -1,3 +1,5 @@
 vendor
 cache
 get-pip.py
+wsl
+*~
