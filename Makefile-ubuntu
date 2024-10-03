@@ -1,4 +1,4 @@
-export PATH := ${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/bin/core_perl:${HOME}/bin:${HOME}/google-cloud-sdk/bin
+export PATH := ${HOME}/.local/bin:${HOME}/.node_modules/bin:$(HOME)/.pyenv/shims:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/bin/core_perl:${HOME}/bin:${HOME}/google-cloud-sdk/bin
 export GOPATH := ${HOME}
 
 NODE_PKGS	:= babel-eslint cloc create-nuxt-app create-react-app webpack firebase-tools now
@@ -137,9 +137,9 @@ install: ## Install arch linux packages using pacman
 	sudo apt update -y
 
 pipinstall: ${HOME}/.local ## Install python packages
-	# curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-	# python ${PWD}/get-pip.py --user
-	# sudo ln -vsf ${PWD}/usr/share/zsh/site-functions/_pipenv /usr/share/zsh/site-functions/_pipenv
+	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+	python ${PWD}/get-pip.py --user
+	sudo ln -vsf ${PWD}/usr/share/zsh/site-functions/_pipenv /usr/local/zsh/site-functions/_pipenv
 	pip install --user --upgrade pip
 	pip install --user $(PIP_PKGS)
 	# rm -fr get-pip.py
