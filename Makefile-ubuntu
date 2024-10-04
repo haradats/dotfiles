@@ -609,6 +609,9 @@ pipupdate: ## Update python packages
 rustupdate: ## Update rust packages
 	cargo install-update -a
 
+yarn:
+	corepack enable
+
 yarnupdate: ## Update yarn packages
 	yarn global upgrade
 
