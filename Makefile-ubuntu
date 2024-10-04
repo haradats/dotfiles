@@ -159,7 +159,8 @@ goinstall: ${HOME}/.local ## Install go packages
 	go install github.com/mithrandie/csvq@latest
 
 nodeinstall: ## Install node packages
-	sudo $(PACMAN) -S yarn
+	# sudo $(PACMAN) -S yarn
+	corepack enable
 	mkdir -p ${HOME}/.node_modules
 	for pkg in $(NODE_PKGS); do yarn global add $$pkg; done
 
@@ -608,9 +609,6 @@ pipupdate: ## Update python packages
 
 rustupdate: ## Update rust packages
 	cargo install-update -a
-
-yarn:
-	corepack enable
 
 yarnupdate: ## Update yarn packages
 	yarn global upgrade
