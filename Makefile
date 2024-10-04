@@ -4,19 +4,19 @@ export GOPATH := ${HOME}
 BASE_PKGS	:= filesystem gcc-libs glibc bash coreutils file findutils gawk grep procps-ng sed tar gettext
 BASE_PKGS	+= pciutils psmisc shadow util-linux bzip2 gzip xz licenses pacman systemd systemd-sysvcompat 
 BASE_PKGS	+= iputils iproute2 autoconf sudo automake binutils bison fakeroot flex gcc groff libtool m4 
-BASE_PKGS	+= make patch pkgconf texinfo which
+BASE_PKGS	+= make patch pkgconf texinfo which archlinux-keyring debugedit
 
-PACKAGES	:= base go zsh git vim tmux keychain evince unrar hugo ethtool zsh-completions xsel emacs gvfs-smb difftastic
-PACKAGES	+= unace iperf valgrind noto-fonts-emoji inkscape file-roller xclip atool debootstrap oath-toolkit 
+PACKAGES	:= base base-devel go zsh git vim tmux keychain evince unrar hugo ethtool zsh-completions xsel emacs gvfs-smb
+PACKAGES	+= unace iperf valgrind noto-fonts-emoji inkscape file-roller xclip atool debootstrap oath-toolkit
 PACKAGES	+= imagemagick lynx the_silver_searcher cifs-utils elinks flameshot ruby-rdoc ipcalc traceroute
-PACKAGES	+= cups-pdf firefox firefox-i18n-ja gimp strace lhasa hub bookworm tig sysprof pkgfile dconf-editor
-PACKAGES	+= rsync nodejs debian-archive-keyring gauche cpio aria2 nmap poppler-data ffmpeg asciidoc sbcl 
-PACKAGES	+= aspell aspell-en screen mosh diskus gdb wmctrl pwgen linux-docs htop tcpdump gvfs p7zip lzop fzf 
+PACKAGES	+= cups-pdf firefox firefox-i18n-ja gimp strace lhasa hub bookworm tig sysprof pkgfile p7zip
+PACKAGES	+= rsync nodejs debian-archive-keyring gauche cpio aria2 nmap poppler-data ffmpeg asciidoc sbcl
+PACKAGES	+= aspell aspell-en screen mosh diskus gdb wmctrl pwgen linux-docs htop tcpdump gvfs lzop fzf
 PACKAGES	+= gpaste optipng arch-install-scripts pandoc jq pkgstats ruby highlight alsa-utils geckodriver
 PACKAGES	+= texlive-langjapanese tokei texlive-latexextra ctags hdparm eog curl parallel npm yq ansible
 PACKAGES	+= typescript llvm llvm-libs lldb tree w3m whois csvkit pass zsh-syntax-highlighting shellcheck
 PACKAGES	+= bash-completion mathjax expect obs-studio cscope postgresql-libs pdfgrep gnu-netcat cmatrix btop
-PACKAGES	+= jpegoptim nethogs mlocate pacman-contrib x11-ssh-askpass libreoffice-fresh-ja tldr streamlink
+PACKAGES	+= jpegoptim nethogs plocate pacman-contrib x11-ssh-askpass libreoffice-fresh-ja tldr streamlink
 PACKAGES	+= jhead peek ncdu gnome-screenshot sshfs fping syncthing terraform bat lshw xdotool sshuttle packer 
 PACKAGES	+= ripgrep stunnel vimiv adapta-gtk-theme gnome-tweaks firejail opencv hexedit discord pv perl-net-ip
 PACKAGES	+= smartmontools gnome-logs wireshark-cli wl-clipboard lsof mapnik editorconfig-core-c watchexec
@@ -24,14 +24,14 @@ PACKAGES	+= gtop gopls convmv mpv browserpass-firefox man-db baobab ioping ruby-
 PACKAGES	+= guetzli fabric detox usleep libvterm bind asunder lame git-lfs hex miller bash-language-server
 PACKAGES	+= diffoscope dust rbw eza sslscan abiword pyright miniserve fdupes deno serverless mold fx httpie
 PACKAGES	+= gron typescript-language-server dateutils time xsv rust git-delta zellij jc ruff speedtest-cli
+PACKAGES	+= dconf-editor ghq gopls difftastic csvlens cloc eslint prettier trivy
 
 PIP_PKGS	:= python-pip python-pipenv python-pdm python-seaborn python-ipywidgets python-jupyter-client
-PIP_PKGS	+= python-prompt_toolkit python-faker python-matplotlib python-nose python-pandas
+PIP_PKGS	+= python-prompt_toolkit python-faker python-matplotlib python-nose python-pandas python-numpy
 
-NODE_PKGS	:= babel-eslint cloc firebase-tools now mermaid mermaid.cli parcel-bundler
-NODE_PKGS	+= dockerfile-language-server-nodejs eslint eslint-cli eslint-config-vue netlify-cli
-NODE_PKGS	+= eslint-plugin-react eslint-plugin-vue@next expo-cli fx heroku ngrok prettier
-NODE_PKGS	+= indium intelephense logo.svg @marp-team/marp-cli jshint
+NODE_PKGS	:= firebase-tools now mermaid mermaid.cli parcel-bundler heroku
+NODE_PKGS	+= dockerfile-language-server-nodejs netlify-cli ngrok fx jshint
+NODE_PKGS	+= indium intelephense logo.svg @marp-team/marp-cli
 
 PACMAN		:= sudo pacman -S 
 SYSTEMD_ENABLE	:= sudo systemctl --now enable
@@ -88,6 +88,9 @@ install: ## Install arch linux packages using pacman
 	$(PACMAN) pkgfile
 	sudo pkgfile --update
 
+uv: ## Install uv and setup
+	$(PACMAN) uv
+
 rye: ## Install rye and setup
 	$(PACMAN) rye
 	mkdir ~/.zfunc
@@ -97,20 +100,22 @@ pipinstall: ## Install python packages
 	$(PACMAN) $(PIP_PKGS)
 
 goinstall: ${HOME}/.local ## Install go packages
-	go install golang.org/x/tools/gopls@latest
 	go install golang.org/x/tools/cmd/goimports@latest
-	go install github.com/x-motemen/ghq@latest
 	go install github.com/kyoshidajp/ghkw@latest
 	go install github.com/simeji/jid/cmd/jid@latest
 	go install github.com/jmhodges/jsonpp@latest
 	go install github.com/mithrandie/csvq@latest
 
-nodeinstall: ## Install node global packages
+yarninstall: ## Install yarn global packages
 	mkdir -p ${HOME}/.config/yarn/global
 	ln -vsf ${PWD}/archlinux/package.json ${HOME}/.config/yarn/global/package.json
 	$(PACMAN) yarn
 	mkdir -p ${HOME}/.node_modules
 	for pkg in $(NODE_PKGS); do yarn global add $$pkg; done
+
+pnpminstall: ## Install pnpm global packages
+	$(PACMAN) pnpm
+	for pkg in $(NODE_PKGS); do pnpm add -g $$pkg; done
 
 rustinstall: ## Install rust and rust language server
 	$(PACMAN) rustup
@@ -320,7 +325,7 @@ minikube: ## Setup minikube with kvm2
 	$@ config set vm-driver kvm2
 
 kind: ## Setup kind (Kubernetes In Docker)
-	go install sigs.k8s.io/kind@v0.23.0
+	go install sigs.k8s.io/kind@v0.24.0
 	sudo sh -c "kind completion zsh > /usr/share/zsh/site-functions/_kind"
 
 redis: ## Redis inital setup
@@ -371,7 +376,7 @@ yay: ## Install yay using yay
 	yay -S $@
 
 aur: ## Install arch linux AUR packages using yay
-	yay -S csvlens downgrade git-secrets nvm pscale-cli rgxg slack-desktop trdsql-bin tree-sitter-rust zoom
+	yay -S duckdb-bin downgrade git-secrets nvm pscale-cli rgxg slack-desktop trdsql-bin tree-sitter-rust zoom
 
 sequeler: ## Install gui database tools
 	yay -S $@-git
@@ -393,11 +398,7 @@ gh: ## Install and setup github-cli
 	gh extension install seachicken/gh-poi
 
 aurplus: ## Install arch linux AUR packages using yay
-	yay -S appimagelauncher drone-cli nkf pencil rtags skypeforlinux-stable-bin trivy-bin
-
-terraformer: ## Install terraformer
-	curl -LO https://github.com/GoogleCloudPlatform/$@/releases/download/`curl -s https://api.github.com/repos/GoogleCloudPlatform/$@/releases/latest | grep tag_name | cut -d '"' -f 4`/$@-aws-linux-amd64
-	sudo install -m 755 $@-aws-linux-amd64 /usr/local/bin/$@ && rm $@-aws-linux-amd64
+	yay -S appimagelauncher nkf rtags terraformer-bin
 
 bluetooth: # Setup bluetooth
 	$(PACMAN) bluez bluez-utils
@@ -456,6 +457,12 @@ chrome: ## Install chrome and noto-fonts and browserpass
 	test -L ${HOME}/.password-store || rm -rf ${HOME}/.password-store
 	ln -vsfn ${HOME}/backup/browserpass ${HOME}/.password-store
 
+ollama: ## Init ollama
+	$(PACMAN) $@
+	$(SYSTEMD_ENABLE) $@.service
+	ollama pull llama3.2
+	ollama pull lucas2024/gemma-2-2b-jpn-it:q8_0
+
 edge: ## Install edge
 	yay -S microsoft-edge-stable-bin
 
@@ -477,8 +484,7 @@ mongodb: ## Mongodb initial setup
 	$(SYSTEMD_ENABLE) $@.service
 
 gnuglobal: ${HOME}/.local ## Install gnu global
-	$(PACMAN) python-pygments
-	yay -S global
+	$(PACMAN) global python-pygments
 
 .ONESHELL:
 SHELL = /bin/bash
@@ -574,13 +580,13 @@ docker_image: docker
 
 testbackup: docker_image ## Test this Makefile with mount backup directory
 	docker run -it --name make$@ -v /home/${USER}/backup:${HOME}/backup:cached --name makefiletest -d dotfiles:latest /bin/bash
-	for target in install init neomutt aur pipinstall goinstall nodeinstall; do
+	for target in install init neomutt aur pipinstall goinstall pnpminstall; do
 		docker exec -it make$@ sh -c "cd ${PWD}; make $${target}"
 	done
 
 test: docker_image ## Test this Makefile with docker without backup directory
 	docker run -it --name make$@ -d dotfiles:latest /bin/bash
-	for target in install init neomutt aur pipinstall goinstall nodeinstall; do
+	for target in install init neomutt aur pipinstall goinstall pnpminstall; do
 		docker exec -it make$@ sh -c "cd ${PWD}; make $${target}"
 	done
 
@@ -592,7 +598,7 @@ testpath: ## Echo PATH
 
 allinstall: dconfsetting rclone gnupg ssh install init keyring urxvt xterm termite yay tlp pipewire-pulse ttf-cica dnsmasq goinstall ibusmozc neomutt docker lvfs toggle aur beekeeper kind gtk-theme chrome rye pipinstall
 
-nextinstall: mysql mycli pgcli nodeinstall rubygem rbenv rustinstall postgresql zeal gcloud awsv2 eralchemy gh
+nextinstall: mysql mycli pgcli pnpminstall rubygem rbenv rustinstall postgresql zeal gcloud awsv2 eralchemy gh
 
 allupdate: update rustupdate goinstall yarnupdate
 

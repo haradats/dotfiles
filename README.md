@@ -11,7 +11,7 @@
 This dotfiles is for Arch linux.
 Since there is no such as a distribution without make,
 if you make [Makefile](https://github.com/masasam/dotfiles/blob/master/Makefile),
-you can correspond to any distribution.
+you can correspond to any linux distribution.
 Let's make a [Makefile](https://github.com/masasam/dotfiles/blob/master/Makefile) immediately.
 
 ### With Makefile, such a good thing
@@ -225,10 +225,10 @@ Install bese bese-devel of arch
 	pacstrap -K /mnt base linux linux-firmware vi
 
 Make sure the nearest mirror is selected.
-Write the nearest mirror on the top.
+Comment out the nearest mirror.
 
 	vi /etc/pacman.d/mirrorlist
-	Server = https://ftp.jaist.ac.jp/pub/Linux/ArchLinux/$repo/os/$arch
+	Server = http://ftp.tsukuba.wide.ad.jp/Linux/archlinux/$repo/os/$arch
 	pacman -Syuu
 
 Generate fstab
@@ -256,7 +256,7 @@ Shell is in English environment
 
     export LANG=C
 
-This neighborhood will be UTF-8
+This will be UTF-8
 
     echo LANG=ja_JP.UTF-8 > /etc/locale.conf
 
@@ -433,8 +433,8 @@ You can make install from here
     sudo pacman -S seahorse the_silver_searcher zeal vimiv
     sudo pacman -S cups-pdf htop neovim go pkgfile rsync elixir
 	sudo pacman -S nodejs whois nmap poppler-data ffmpeg gron
-	sudo pacman -S aspell aspell-en httperf asciidoc sbcl rye
-	sudo pacman -S gdb hub wmctrl gpaste pkgstats ripgrep
+	sudo pacman -S aspell aspell-en httperf asciidoc sbcl rye uv
+	sudo pacman -S gdb hub wmctrl gpaste pkgstats ripgrep pnpm
 	sudo pacman -S linux-docs pwgen gauche screen ipcalc rbw
 	sudo pacman -S arch-install-scripts ctags parallel opencv
 	sudo pacman -S pandoc texlive-langjapanese texlive-latexextra
@@ -444,7 +444,7 @@ You can make install from here
 	sudo pacman -S npm llvm llvm-libs lldb hdparm rxvt-unicode 
 	sudo pacman -S mariadb-clients postgresql-libs tig lsof fzf
 	sudo pacman -S debootstrap tcpdump pdfgrep sshfs stunnel
-	sudo pacman -S alsa-utils mlocate traceroute hugo mpv jhead
+	sudo pacman -S alsa-utils plocate traceroute hugo mpv jhead
 	sudo pacman -S nethogs optipng jpegoptim noto-fonts-emoji
 	sudo pacman -S debian-archive-keyring tree rclone gnome-tweaks
 	sudo pacman -S mathjax strace valgrind p7zip unace postgresql
@@ -462,17 +462,15 @@ You can make install from here
 	sudo pacman -S perl-net-ip hex miller btop diffoscope dust yq
 	sudo pacman -S sslscan abiword pyright miniserve fdupes deno
 	sudo pacman -S serverless mold fx httpie bash-language-server
-	sudo pacman -S difftastic
+	sudo pacman -S difftastic ollama ghq
 
 ![activity](https://raw.githubusercontent.com/masasam/image/image/activity.png)
 
 #### Install using yay
 
 	yay -S beekeeper-studio-bin
-	yay -S csvlens
 	yay -S downgrade
 	yay -S git-secrets
-	yay -S global
 	yay -S ibus-mozc
 	yay -S nvm
 	yay -S rgxg
@@ -489,9 +487,7 @@ You can make install from here
 #### Install using golang
 
 	mkdir -p ${HOME}/{bin,src}
-	go install golang.org/x/tools/gopls@latest
 	go install golang.org/x/tools/cmd/goimports@latest
-	go install github.com/x-motemen/ghq@latest
 	go install github.com/kyoshidajp/ghkw@latest
 	go install github.com/simeji/jid/cmd/jid@latest
 	go install github.com/jmhodges/jsonpp@latest
@@ -538,7 +534,7 @@ Google Kubernetes Engine
 
 kind(Kubernetes IN Docker)
 
-	go install sigs.k8s.io/kind@v0.23.0
+	go install sigs.k8s.io/kind@v0.24.0
 	sudo sh -c "kind completion zsh > /usr/share/zsh/site-functions/_kind"
 
 minikube with kvm2
