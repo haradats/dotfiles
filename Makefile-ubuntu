@@ -1,4 +1,4 @@
-export PATH := ${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.pyenv/shims:${NVM_BIN}:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/bin/core_perl:${HOME}/bin:${HOME}/google-cloud-sdk/bin
+export PATH := /snap/bin:${HOME}/.local/bin:${HOME}/.node_modules/bin:${HOME}/.pyenv/shims:${NVM_BIN}:${HOME}/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/bin/core_perl:${HOME}/bin:${HOME}/google-cloud-sdk/bin
 export GOPATH := ${HOME}
 
 NODE_PKGS	:= babel-eslint cloc create-nuxt-app create-react-app webpack firebase-tools vercel
@@ -40,7 +40,7 @@ PIP_PKGS	+= zappa termdown jinja2
 # PACKAGES	+= bash-language-server gron pyenv
 PACKAGES    := base
 PACKAGES	+= zsh zsh-doc zsh-syntax-highlighting bash-completion fzf
-PACKAGES    += git vim keychain lynx aspell-en w3m screen tmux x11-apps
+PACKAGES    += git-all vim keychain lynx aspell-en w3m screen tmux x11-apps
 PACKAGES    += libssl-dev libncurses-dev libbz2-dev libreadline-dev python3-tk lzma-dev x11-xserver-utils
 PACKAGES    += apt-file rsync
 PACKAGES    += manpages-ja manpages-ja-dev
