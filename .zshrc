@@ -5,6 +5,8 @@ autoload -U compinit promptinit
 compinit
 promptinit
 
+GITHUBUSER='haradats'
+
 export LANG=ja_JP.UTF-8
 
 autoload -Uz colors
@@ -277,16 +279,16 @@ alias melpabackup='rm -rf ${HOME}/backup/emacs/elpa/`ls -rt ${HOME}/backup/emacs
 alias melpacleanup='rm -rf ${HOME}/.emacs.d/elpa'
 alias dockercleanup='docker system df; docker container prune; docker volume prune; docker image prune; docker network prune; docker system prune -a; docker system df'
 alias yaycleanup='yay -Sc --aur'
-alias goupdate='cd ${HOME}/src/github.com/masasam/dotfiles; make goinstall; cd -'
+alias goupdate='cd ${HOME}/src/github.com/${GITHUBUSER}/dotfiles; make goinstall; cd -'
 alias kindstart='kind create cluster; export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"; kubectl cluster-info'
 alias kindstop='unset KUBECONFIG; kind delete cluster'
 alias rustupdate='rustup update'
 alias cargoupdate='cargo install-update -a'
-alias cargocleanup='rm -rf ${HOME}/.cargo/bin/*; cd ${HOME}/src/github.com/masasam/dotfiles; make rustinstall; cd -'
+alias cargocleanup='rm -rf ${HOME}/.cargo/bin/*; cd ${HOME}/src/github.com/${GITHUBUSER}/dotfiles; make rustinstall; cd -'
 alias yarnupdate='yarn global upgrade'
 alias yarncleanupcash='yarn cache clean'
 alias archupdate='yay -Syu; paccache -r; paccache -ruk0'
-alias archbackup='cd ${HOME}/src/github.com/masasam/dotfiles; make backup; cd -'
+alias archbackup='cd ${HOME}/src/github.com/${GITHUBUSER}/dotfiles; make backup; cd -'
 alias gcloudupdate='gcloud components update'
 alias battery='sudo tlp-stat -b'
 alias ibusrestart='ibus-daemon -drx'
@@ -929,10 +931,10 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/masa/google-cloud-sdk/path.zsh.inc' ]; then . '/home/masa/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '${HOME}/google-cloud-sdk/path.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/masa/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/masa/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '${HOME}/google-cloud-sdk/completion.zsh.inc' ]; then . '${HOME}/google-cloud-sdk/completion.zsh.inc'; fi
 
 # zsh-completions for aws v2
 autoload bashcompinit
@@ -940,7 +942,7 @@ bashcompinit
 complete -C '/usr/local/bin/aws_completer' aws
 
 # pnpm
-export PNPM_HOME="/home/masa/.local/share/pnpm"
+export PNPM_HOME="${HOME}/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
