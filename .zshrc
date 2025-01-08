@@ -1,7 +1,7 @@
 # zshrc
 fpath=("$HOME/.zfunc" ${fpath})
 plugins=(… zsh-completions)
-autoload -U compinit promptinit
+autoload -Uz compinit promptinit
 compinit
 promptinit
 
@@ -910,9 +910,9 @@ function dirsum() {
 }
 
 # zsh-syntax-highlighting(pacman -S zsh-syntax-highlighting)
-if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+#if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+#    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#fi
 # zsh-completions for aws
 # source ~/.local/bin/aws_zsh_completer.sh
 # password
@@ -948,3 +948,5 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+source <(kubectl completion zsh)

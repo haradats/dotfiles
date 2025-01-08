@@ -38,3 +38,8 @@ if [ -d "${RBENV_ROOT}" ]; then
 fi
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '${HOME}/google-cloud-sdk/path.bash.inc' ]; then . '${HOME}/google-cloud-sdk/path.bash.inc'; fi
+
+source <(kubectl completion bash)
+source /usr/share/bash-completion/bash_completion
+alias k=kubectl
+complete -o default -F __start_kubectl k
