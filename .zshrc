@@ -1,7 +1,7 @@
 # zshrc
 fpath=("$HOME/.zfunc" ${fpath})
 plugins=(… zsh-completions)
-autoload -U compinit promptinit
+autoload -Uz compinit promptinit
 compinit
 promptinit
 
@@ -948,3 +948,5 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+source <(kubectl completion zsh)
