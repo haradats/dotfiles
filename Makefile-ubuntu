@@ -76,16 +76,12 @@ all: allinstall nextinstall allupdate allbackup
 ${HOME}/.local:
 	mkdir -p $@
 
-ca-bundle: ${HOME}/backup/cert/ca-bundle.pem
-	# openssl x509 -inform DER -in $< -out $@
-	sudo mkdir -p /usr/share/ca-certificates/extra
-	sudo cp -i $(<) /usr/share/ca-certificates/extra/
-	grep -q "extra/$@" /etc/ca-certificates.conf || echo "extra/$@" | sudo tee -a /etc/ca-certificates.conf
-	sudo update-ca-certificates
-	echo "cacert = $(<)" >> ${HOME}/.curlrc
-	# ${HOME}/.pip/pip.conf
-	# [global]
-	# cert = ${HOME}/backup/cert/ca-bundle.pem
+ca-bundle: ${HOME}/backup/cert/Zscaler_RootCA.cer
+	sudo chmod 644 $<
+	sudo cp -i $< /usr/share/ca-certificates/Zscaler_RootCA.crt
+	sudo update-ca-certificates -f
+	ls -l /etc/ssl/certs/ca-certificates.crt
+	# curl -I https://www.google.co.jp/
 
 export-ca: ${HOME}/backup/cert/Zscaler_RootCA.cer
 	echo 'docker container exec -it KUBEHOST bash -c "mkdir /usr/share/ca-certificates; echo zscaler/Zscaler_RootCA.cer | sudo tee -a /etc/ca-certificates.conf'
