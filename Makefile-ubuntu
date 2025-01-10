@@ -76,9 +76,9 @@ all: allinstall nextinstall allupdate allbackup
 ${HOME}/.local:
 	mkdir -p $@
 
-ca-bundle: ${HOME}/backup/cert/Zscaler_RootCA.cer
+zscaler-cert: ${HOME}/backup/cert/Zscaler_RootCA.cer
 	sudo chmod 644 $<
-	sudo cp -i $< /usr/share/ca-certificates/Zscaler_RootCA.crt
+	sudo cp -i $< /usr/local/share/ca-certificates/Zscaler_RootCA.crt
 	sudo update-ca-certificates -f
 	ls -l /etc/ssl/certs/ca-certificates.crt
 	# curl -I https://www.google.co.jp/
