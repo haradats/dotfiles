@@ -51,11 +51,12 @@ PACKAGES    += texlive-lang-japanese texlive-luatex texlive-latex-recommended
 # BASE_PKGS	+= pciutils psmisc shadow util-linux bzip2 gzip xz licenses pacman systemd systemd-sysvcompat 
 # BASE_PKGS	+= iputils iproute2 autoconf sudo automake binutils bison fakeroot flex gcc groff libtool m4 
 # BASE_PKGS	+= make patch pkgconf texinfo which
-BASE_PKGS   := build-essential language-pack-ja net-tools lzip xlunzip libsqlite3-dev
+BASE_PKGS   := build-essential language-pack-ja net-tools lzip xlunzip libsqlite3-dev lsb-release
 BASE_PKGS	+= bash coreutils file findutils gawk grep sed tar gettext
 BASE_PKGS	+= pciutils psmisc util-linux bzip2 gzip pacman systemd
 BASE_PKGS	+= iproute2 autoconf sudo automake binutils bison fakeroot flex gcc groff libtool m4 
-BASE_PKGS	+= make patch pkgconf texinfo
+BASE_PKGS	+= patch pkgconf texinfo
+BASE_PKGS	+= apt-transport-https ca-certificates software-properties-common ## Docker
 
 # PACMAN		:= sudo pacman -S 
 PACMAN		:= sudo apt install -y
@@ -75,16 +76,17 @@ all: allinstall nextinstall allupdate allbackup
 ${HOME}/.local:
 	mkdir -p $@
 
-ca-bundle: ${HOME}/backup/cert/ca-bundle.pem
-	# openssl x509 -inform DER -in $< -out $@
-	sudo mkdir -p /usr/share/ca-certificates/extra
-	sudo cp -i $(<) /usr/share/ca-certificates/extra/
-	grep -q "extra/$@" /etc/ca-certificates.conf || echo "extra/$@" | sudo tee -a /etc/ca-certificates.conf
-	sudo update-ca-certificates
-	echo "cacert = $(<)" >> ${HOME}/.curlrc
-	# ${HOME}/.pip/pip.conf
-	# [global]
-	# cert = ${HOME}/backup/cert/ca-bundle.pem
+zscaler-cert: ${HOME}/backup/cert/Zscaler_RootCA.cer
+	sudo chmod 644 $<
+	sudo cp -i $< /usr/local/share/ca-certificates/Zscaler_RootCA.crt
+	sudo update-ca-certificates -f
+	ls -l /etc/ssl/certs/ca-certificates.crt
+	# curl -I https://www.google.co.jp/
+
+export-ca: ${HOME}/backup/cert/Zscaler_RootCA.cer
+	echo 'docker container exec -it KUBEHOST bash -c "mkdir /usr/share/ca-certificates; echo zscaler/Zscaler_RootCA.cer | sudo tee -a /etc/ca-certificates.conf'
+	echo 'docker cp $< KUBEHOST:/usr/share/ca-certificates/zcaler/'
+	echo 'docker container exec -it KUBEHOST bash -c update-ca-certificates
 
 nvm:
 	export NVM_DIR=${HOME}/.config/nvm
@@ -286,9 +288,21 @@ localhostssl: # Set ssl for localhost
 	mkcert localhost
 
 docker: ## Docker initial setup
-	$(PACMAN) $@ $@-compose
+	# $(PACMAN) $@ $@-compose
 	sudo usermod -aG $@ ${USER}
-	$(SYSTEMD_ENABLE) $@.service
+	# $(SYSTEMD_ENABLE) $@.service
+	sudo mkdir -p /etc/apt/keyrings
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+	echo "deb [arch=$(shell dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(shell lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+
+docker-install:
+	sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+kubectl:
+	curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(shell curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+	chmod +x kubectl
+	sudo mv kubectl /usr/local/bin/kubectl
+	kubectl version --client
 
 podman: ## Podman initial setup
 	$(PACMAN) $@
@@ -359,6 +373,13 @@ minikube: ## Setup minikube with kvm2
 	# $(SYSTEMD_ENABLE) libvirtd.service
 	# $(SYSTEMD_ENABLE) virtlogd.service
 	# $@ config set vm-driver kvm2
+	curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+	sudo install minikube-linux-amd64 /usr/local/bin/minikube
+	sudo usermod -a -G docker ${USER}
+	minikube version
+
+minikube-start:
+	minikube start --nodes=2 --driver=docker --container-runtime=containerd --network-plugin=cni --cni=calico
 
 kind: ## Setup kind (Kubernetes In Docker)
 	go install sigs.k8s.io/kind@v0.17.0

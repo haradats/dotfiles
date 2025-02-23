@@ -1,4 +1,5 @@
 export DATABASE_PASSWORD='your_password'
+# export REQUESTS_CA_BUNDLE=$HOME/backup/cert/Zscaler.cer
 
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 export ALTERNATE_EDITOR=vim
